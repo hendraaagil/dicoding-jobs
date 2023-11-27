@@ -5,6 +5,9 @@ const theme = extendTheme({
     heading: 'var(--font-inter)',
     body: 'var(--font-inter)',
   },
+  colors: {
+    navy: '#2D3E50',
+  },
 })
 
 export default theme

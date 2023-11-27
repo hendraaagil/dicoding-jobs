@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { DefaultSeo } from 'next-seo'
 import { ChakraProvider } from '@chakra-ui/react'
 
+import { Footer, Navigation } from '@/components/layout'
 import SEO from '@/configs/next-seo'
 import theme from '@/configs/theme'
 
@@ -20,7 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </style>
       <DefaultSeo {...SEO} />
       <ChakraProvider theme={theme} resetCSS>
+        <Navigation />
         <Component {...pageProps} />
+        <Footer />
       </ChakraProvider>
     </>
   )
