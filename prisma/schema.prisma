@@ -58,6 +58,7 @@ model Job {
   minSalary       Int      @map("min_salary")
   maxSalary       Int?     @map("max_salary")
   isSalaryVisible Boolean  @default(false) @map("is_salary_visible")
+  isCanRemote     Boolean  @default(false) @map("is_can_remote")
   expiresAt       DateTime @map("expires_at") @db.Timestamptz()
   createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()

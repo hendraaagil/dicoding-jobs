@@ -47,6 +47,7 @@ export const Navigation = () => (
     boxShadow="sm"
     borderBottom="2px"
     borderColor="gray.200"
+    zIndex={10}
   >
     <Flex
       px={4}
