@@ -32,7 +32,7 @@ const Link = ({ name, href }: { name: string; href: string }) => {
   }
 
   if (isActive) {
-    linkProps.borderBottomColor = 'navy'
+    linkProps.borderBottomColor = 'navy.500'
   }
 
   return <ChakraLink {...linkProps}>{name}</ChakraLink>
@@ -65,7 +65,7 @@ export const Navigation = () => (
           width={32}
           height={32}
         />
-        <Text fontWeight="700" fontSize="2xl" color="navy">
+        <Text fontWeight="700" fontSize="2xl" color="navy.500">
           Jobs
         </Text>
       </Flex>

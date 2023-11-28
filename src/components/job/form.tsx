@@ -131,7 +131,7 @@ export const JobForm = ({
           <RadioGroup name="jobTypeId">
             <Stack>
               {jobTypes.map((jobType) => (
-                <Radio key={jobType.id} value={jobType.id}>
+                <Radio key={jobType.id} value={jobType.id} colorScheme="navy">
                   {jobType.name}
                 </Radio>
               ))}
@@ -193,7 +193,7 @@ export const JobForm = ({
               <FormErrorMessage>{errors.locationId[0]}</FormErrorMessage>
             )}
           </FormControl>
-          <Checkbox name="isCanRemote" value="1">
+          <Checkbox name="isCanRemote" value="1" colorScheme="navy">
             Bisa remote
           </Checkbox>
         </Stack>
@@ -249,7 +249,12 @@ export const JobForm = ({
 
           <FormControl display="flex" flexDir="column" columnGap={2}>
             <Stack direction="row">
-              <Switch id="isSalaryVisible" name="isSalaryVisible" value="1" />
+              <Switch
+                id="isSalaryVisible"
+                name="isSalaryVisible"
+                value="1"
+                colorScheme="navy"
+              />
               <FormLabel htmlFor="isSalaryVisible" mb={0} color="gray.600">
                 Tampilkan gaji
               </FormLabel>
@@ -266,7 +271,11 @@ export const JobForm = ({
           <RadioGroup name="experienceId">
             <Stack>
               {experiences.map((experience) => (
-                <Radio key={experience.id} value={experience.id}>
+                <Radio
+                  key={experience.id}
+                  value={experience.id}
+                  colorScheme="navy"
+                >
                   {experience.name}
                 </Radio>
               ))}
@@ -281,7 +290,7 @@ export const JobForm = ({
           <Button
             type="submit"
             w="full"
-            bg="navy"
+            bg="navy.500"
             color="white"
             rounded="unset"
             _hover={{ bg: 'gray.600' }}

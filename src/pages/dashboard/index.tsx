@@ -32,9 +32,9 @@ export default function Page() {
             columnGap={2}
             py={2}
             px={4}
-            bg="navy"
+            bg="navy.500"
             color="white"
-            _hover={{ textDecoration: 'none' }}
+            _hover={{ textDecoration: 'none', bg: 'gray.600' }}
           >
             <Plus size={20} />
             Buat Lowongan
