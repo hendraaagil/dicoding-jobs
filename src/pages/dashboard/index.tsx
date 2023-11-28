@@ -1,10 +1,18 @@
 import { Link } from '@chakra-ui/next-js'
 import { Flex, Heading, Stack } from '@chakra-ui/react'
 import { Plus } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
 
 import { Container } from '@/components/layout'
+import { getJobs } from '@/apis/job'
 
 export default function Page() {
+  const query = useQuery({
+    queryKey: ['jobs'],
+    queryFn: getJobs,
+  })
+  console.log(query.data)
+
   return (
     <Flex as="main" pt={14} minH="100vh">
       <Container>

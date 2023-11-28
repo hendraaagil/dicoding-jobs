@@ -10,6 +10,8 @@ import {
   Image as ImageIcon,
   Italic,
   Link as LinkIcon,
+  List,
+  ListOrdered,
   Underline as UnderlineIcon,
 } from 'lucide-react'
 
@@ -21,7 +23,7 @@ import Underline from '@tiptap/extension-underline'
 const Menu = ({ editor }: { editor: Editor | null }) => {
   const linkHandler = () => {
     const previousUrl = editor?.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
+    const url = window.prompt('Masukkan URL', previousUrl)
 
     // If cancelled, do nothing
     if (url === null) {
@@ -39,7 +41,7 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
   }
 
   const imageHandler = () => {
-    const url = window.prompt('URL')
+    const url = window.prompt('Masukkan URL')
 
     if (url) {
       editor?.chain().focus().setImage({ src: url }).run()
@@ -47,7 +49,13 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
   }
 
   return (
-    <Stack direction="row" p={2} borderBottom="1px" borderColor="gray.200">
+    <Stack
+      direction="row"
+      p={2}
+      borderBottom="1px"
+      borderColor="gray.200"
+      overflow="auto"
+    >
       <Stack direction="row" pr={2} borderRight="2px" borderColor="gray.200">
         <IconButton
           rounded="unset"
@@ -100,6 +108,22 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor?.chain().focus().toggleUnderline().run()}
         />
       </Stack>
+      <Stack direction="row" pr={2} borderRight="2px" borderColor="gray.200">
+        <IconButton
+          rounded="unset"
+          aria-label="Ordered list"
+          icon={<ListOrdered size={20} />}
+          bg={editor?.isActive('orderedList') ? 'gray.200' : 'white'}
+          onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+        />
+        <IconButton
+          rounded="unset"
+          aria-label="Bullet list"
+          icon={<List size={20} />}
+          bg={editor?.isActive('bulletList') ? 'gray.200' : 'white'}
+          onClick={() => editor?.chain().focus().toggleBulletList().run()}
+        />
+      </Stack>
       <Stack direction="row">
         <IconButton
           rounded="unset"
@@ -149,7 +173,7 @@ export const RichText = ({ content, setContent }: RichTextProps) => {
   return (
     <Box border="1px" borderColor="gray.200">
       <Menu editor={editor} />
-      <Box py={2} px={4}>
+      <Box py={2} px={4} minH="xs" maxH="lg" overflow="auto">
         <EditorContent editor={editor} />
       </Box>
     </Box>

@@ -1,13 +1,13 @@
-import prisma from './db'
+import prisma from '@/libs/db'
 
-export const getPositions = () =>
-  prisma.position.findMany({ orderBy: { sequence: 'asc' } })
+export const getPositions = async () =>
+  await prisma.position.findMany({ orderBy: { sequence: 'asc' } })
 
-export const getJobTypes = () =>
-  prisma.jobType.findMany({ orderBy: { sequence: 'asc' } })
+export const getJobTypes = async () =>
+  await prisma.jobType.findMany({ orderBy: { sequence: 'asc' } })
 
-export const getLocations = () =>
-  prisma.location.findMany({ orderBy: { sequence: 'asc' } })
+export const getLocations = async () =>
+  await prisma.location.findMany({ orderBy: { sequence: 'asc' } })
 
-export const getExperiences = () =>
-  prisma.experience.findMany({ orderBy: { sequence: 'asc' } })
+export const getExperiences = async () =>
+  await prisma.experience.findMany({ orderBy: { sequence: 'asc' } })
