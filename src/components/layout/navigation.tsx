@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Link as ChakraLink, LinkProps } from '@chakra-ui/next-js'
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 
 const navigations = [
   {
@@ -39,10 +39,18 @@ const Link = ({ name, href }: { name: string; href: string }) => {
 }
 
 export const Navigation = () => (
-  <Flex as="nav" position="fixed" bg="white" w="full" boxShadow="sm">
+  <Flex
+    as="nav"
+    position="fixed"
+    bg="white"
+    w="full"
+    boxShadow="sm"
+    borderBottom="2px"
+    borderColor="gray.200"
+  >
     <Flex
       px={4}
-      py={4}
+      py={2}
       mx="auto"
       w="full"
       maxW="container.xl"
@@ -56,9 +64,9 @@ export const Navigation = () => (
           width={32}
           height={32}
         />
-        <Heading as="h3" size="lg" color="navy">
+        <Text fontWeight="700" fontSize="2xl" color="navy">
           Jobs
-        </Heading>
+        </Text>
       </Flex>
       <Flex columnGap={8} alignItems="center">
         {navigations.map((navigation) => (
