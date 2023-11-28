@@ -4,10 +4,12 @@ export const Container = ({ children, ...rest }: StackProps) => (
   <Stack
     direction="column"
     mx="auto"
-    p={4}
+    px={4}
+    py={10}
     w="full"
     align="start"
     maxW="container.xl"
+    color="navy.500"
     {...rest}
   >
     {children}

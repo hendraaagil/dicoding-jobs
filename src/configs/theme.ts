@@ -17,13 +17,13 @@ const theme = extendTheme({
         fontWeight: 'bold',
       },
       h1: {
-        fontSize: '3rem',
-      },
-      h2: {
         fontSize: '2.25rem',
       },
-      h3: {
+      h2: {
         fontSize: '1.875rem',
+      },
+      h3: {
+        fontSize: '1.5rem',
       },
       h4: {
         fontSize: '1.25rem',

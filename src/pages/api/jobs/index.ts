@@ -21,8 +21,22 @@ export default async function handler(
     }
   } else if (req.method === 'GET') {
     try {
-      const jobs = await getJobs()
-      return res.status(200).json(jobs)
+      const { page } = req.query
+      const [count, jobs] = await getJobs({ page: page as string })
+      const totalPage = Math.ceil(count / 10)
+      const currentPage = Number(page) || 1
+      const hasNextPage = currentPage < totalPage
+      const hasPrevPage = currentPage > 1
+
+      return res.status(200).json({
+        data: jobs,
+        pagination: {
+          totalPage,
+          currentPage,
+          hasNextPage,
+          hasPrevPage,
+        },
+      })
     } catch (error) {
       console.error(error)
       return res.status(500).json({ message: 'Something went wrong!' })

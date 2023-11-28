@@ -24,6 +24,7 @@ import {
   Select,
   Stack,
   Switch,
+  useToast,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -58,12 +59,20 @@ export const JobForm = ({
   const [errors, setErrors] = React.useState<JobSchemaError>({})
   const queryClient = useQueryClient()
   const router = useRouter()
+  const toast = useToast()
 
   const mutation = useMutation({
     mutationFn: (job: JobSchema) => createJob(job),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] })
       router.replace('/dashboard')
+      toast({
+        title: 'Lowongan berhasil dibuat',
+        status: 'success',
+        variant: 'left-accent',
+        position: 'bottom-right',
+        duration: 3000,
+      })
     },
     onError: (error: AxiosError<JobSchemaError>) => {
       if (error.response) {
@@ -92,14 +101,14 @@ export const JobForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Container py={10} spacing={6} maxW="container.md">
+      <Container spacing={6} maxW="container.md">
         <FormControl isInvalid={!!errors.title} isRequired>
           <FormLabel>Judul lowongan</FormLabel>
           <Input
             type="text"
             name="title"
             placeholder="Masukkan judul lowongan"
-            rounded="unset"
+            rounded="sm"
           />
           {!!errors.title && (
             <FormErrorMessage>{errors.title[0]}</FormErrorMessage>
@@ -113,7 +122,7 @@ export const JobForm = ({
             name="positionId"
             placeholder="Pilih posisi yang dicari"
             color="gray.500"
-            rounded="unset"
+            rounded="sm"
           >
             {positions.map((position) => (
               <option key={position.id} value={position.id}>
@@ -149,7 +158,7 @@ export const JobForm = ({
               type="number"
               name="maxCandidates"
               placeholder="Masukkan jumlah kandidat yang dibutuhkan"
-              rounded="unset"
+              rounded="sm"
             />
             <NumberInputStepper>
               <NumberIncrementStepper />
@@ -167,7 +176,7 @@ export const JobForm = ({
             type="date"
             name="expiresAt"
             min={new Date().toISOString().split('T')[0]}
-            rounded="unset"
+            rounded="sm"
           />
           {!!errors.expiresAt && (
             <FormErrorMessage>{errors.expiresAt[0]}</FormErrorMessage>
@@ -181,7 +190,7 @@ export const JobForm = ({
               name="locationId"
               placeholder="Pilih lokasi"
               color="gray.500"
-              rounded="unset"
+              rounded="sm"
             >
               {locations.map((location) => (
                 <option key={location.id} value={location.id}>
@@ -215,24 +224,24 @@ export const JobForm = ({
               columnGap={{ base: 2, sm: 8 }}
             >
               <InputGroup>
-                <InputLeftAddon rounded="unset">Rp</InputLeftAddon>
+                <InputLeftAddon rounded="sm">Rp</InputLeftAddon>
                 <Input
                   type="number"
                   min={1}
                   name="minSalary"
                   placeholder="Minimum"
-                  rounded="unset"
+                  rounded="sm"
                 />
               </InputGroup>
               <span>-</span>
               <InputGroup>
-                <InputLeftAddon rounded="unset">Rp</InputLeftAddon>
+                <InputLeftAddon rounded="sm">Rp</InputLeftAddon>
                 <Input
                   type="number"
                   min={1}
                   name="maxSalary"
                   placeholder="Maksimum (opsional)"
-                  rounded="unset"
+                  rounded="sm"
                   required={false}
                   errorBorderColor="gray.200"
                 />
@@ -292,7 +301,7 @@ export const JobForm = ({
             w="full"
             bg="navy.500"
             color="white"
-            rounded="unset"
+            rounded="sm"
             _hover={{ bg: 'gray.600' }}
           >
             Buat lowongan
@@ -300,7 +309,7 @@ export const JobForm = ({
           <Button
             variant="outline"
             w="full"
-            rounded="unset"
+            rounded="sm"
             onClick={() => router.replace('/dashboard')}
           >
             Batal

@@ -58,7 +58,7 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
     >
       <Stack direction="row" pr={2} borderRight="2px" borderColor="gray.200">
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Heading 1"
           icon={<Heading1 size={20} />}
           bg={editor?.isActive('heading', { level: 1 }) ? 'gray.200' : 'white'}
@@ -67,7 +67,7 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
           }
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Heading 2"
           icon={<Heading2 size={20} />}
           bg={editor?.isActive('heading', { level: 2 }) ? 'gray.200' : 'white'}
@@ -76,7 +76,7 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
           }
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Heading 3"
           icon={<Heading3 size={20} />}
           bg={editor?.isActive('heading', { level: 3 }) ? 'gray.200' : 'white'}
@@ -87,21 +87,21 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
       </Stack>
       <Stack direction="row" pr={2} borderRight="2px" borderColor="gray.200">
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Bold"
           icon={<Bold size={20} />}
           bg={editor?.isActive('bold') ? 'gray.200' : 'white'}
           onClick={() => editor?.chain().focus().toggleBold().run()}
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Italic"
           icon={<Italic size={20} />}
           bg={editor?.isActive('italic') ? 'gray.200' : 'white'}
           onClick={() => editor?.chain().focus().toggleItalic().run()}
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Underline"
           icon={<UnderlineIcon size={20} />}
           bg={editor?.isActive('underline') ? 'gray.200' : 'white'}
@@ -110,14 +110,14 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
       </Stack>
       <Stack direction="row" pr={2} borderRight="2px" borderColor="gray.200">
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Ordered list"
           icon={<ListOrdered size={20} />}
           bg={editor?.isActive('orderedList') ? 'gray.200' : 'white'}
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Bullet list"
           icon={<List size={20} />}
           bg={editor?.isActive('bulletList') ? 'gray.200' : 'white'}
@@ -126,21 +126,21 @@ const Menu = ({ editor }: { editor: Editor | null }) => {
       </Stack>
       <Stack direction="row">
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Link"
           icon={<LinkIcon size={20} />}
           bg={editor?.isActive('link') ? 'gray.200' : 'white'}
           onClick={linkHandler}
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Image"
           icon={<ImageIcon size={20} />}
           bg={editor?.isActive('image') ? 'gray.200' : 'white'}
           onClick={imageHandler}
         />
         <IconButton
-          rounded="unset"
+          rounded="sm"
           aria-label="Code"
           icon={<Code2 size={20} />}
           bg={editor?.isActive('code') ? 'gray.200' : 'white'}
@@ -171,7 +171,7 @@ export const RichText = ({ content, setContent }: RichTextProps) => {
   })
 
   return (
-    <Box border="1px" borderColor="gray.200">
+    <Box border="1px" borderColor="gray.200" rounded="sm">
       <Menu editor={editor} />
       <Box py={2} px={4} minH="xs" maxH="lg" overflow="auto">
         <EditorContent editor={editor} />

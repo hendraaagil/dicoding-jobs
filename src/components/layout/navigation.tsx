@@ -25,6 +25,7 @@ const Link = ({ name, href }: { name: string; href: string }) => {
     fontWeight: '500',
     borderBottom: '2px',
     borderBottomColor: 'transparent',
+    rounded: 'sm',
     _hover: {
       textDecoration: 'none',
       bg: 'gray.100',

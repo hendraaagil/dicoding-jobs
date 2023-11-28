@@ -1,6 +1,7 @@
 import type { Job } from '@prisma/client'
 import type { JobSchema } from '@/schemas/job'
-import type { JobList } from '@/types/job'
+import type { JobList, JobQuery } from '@/types/job'
+
 import axios from 'axios'
 
 export const createJob = async (job: JobSchema): Promise<Job> => {
@@ -8,7 +9,7 @@ export const createJob = async (job: JobSchema): Promise<Job> => {
   return response.data
 }
 
-export const getJobs = async (): Promise<JobList[]> => {
-  const response = await axios.get<JobList[]>('/api/jobs')
+export const getJobs = async (query?: JobQuery): Promise<JobList> => {
+  const response = await axios.get<JobList>('/api/jobs', { params: query })
   return response.data
 }
