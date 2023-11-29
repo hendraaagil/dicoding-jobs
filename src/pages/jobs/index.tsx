@@ -1,3 +1,5 @@
+import type { GetServerSidePropsContext } from 'next'
+
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
@@ -17,14 +19,21 @@ import { getJobs } from '@/apis/job'
 import { Container, Hero } from '@/components/layout'
 import { CardSkeleton, Empty, JobCard, Pagination } from '@/components/job'
 
-export default function Page() {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const { keyword } = context.query
+
+  return { props: { keyword: keyword ?? null } }
+}
+
+export default function Page({ keyword }: { keyword?: string }) {
   const router = useRouter()
   const page = router.query.page as string | undefined
 
-  const [search, setSearch] = useState<string>(
-    (router.query.keyword as string) ?? '',
-  )
-  const debouncedSearch = useDebounce<string | undefined>(search || undefined)
+  const [isSearchChanged, setIsSearchChanged] = useState(false)
+  const [search, setSearch] = useState<string>((keyword as string) ?? '')
+  const debouncedSearch = useDebounce<string>(search)
 
   const { data, isLoading } = useQuery({
     queryKey: ['jobs', debouncedSearch, page],
@@ -33,17 +42,15 @@ export default function Page() {
   })
 
   useEffect(() => {
-    if (
-      debouncedSearch !== undefined &&
-      debouncedSearch !== router.query.keyword
-    ) {
+    if (isSearchChanged && debouncedSearch !== router.query.keyword) {
       router.replace({ query: { keyword: debouncedSearch } }, undefined, {
         shallow: true,
       })
     }
-  }, [debouncedSearch, router])
+  }, [debouncedSearch, isSearchChanged, router])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsSearchChanged(true)
     setSearch(event.target.value)
   }
 
