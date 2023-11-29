@@ -88,15 +88,7 @@ export const JobForm = ({
     formData.append('description', description)
 
     const data = Object.fromEntries(formData.entries()) as unknown as JobSchema
-    mutation.mutate({
-      ...data,
-      expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : '',
-      isCanRemote: Boolean(data.isCanRemote),
-      isSalaryVisible: Boolean(data.isSalaryVisible),
-      minSalary: Number(data.minSalary),
-      maxSalary: Number(data.maxSalary) || undefined,
-      maxCandidates: Number(data.maxCandidates),
-    })
+    mutation.mutate(data)
   }
 
   return (
@@ -216,7 +208,10 @@ export const JobForm = ({
         </FormControl>
 
         <Stack w="full">
-          <FormControl isInvalid={!!errors.minSalary} isRequired>
+          <FormControl
+            isInvalid={!!errors.minSalary || !!errors.maxSalary}
+            isRequired
+          >
             <FormLabel>Rentang gaji per bulan</FormLabel>
             <Stack
               direction="row"
@@ -243,12 +238,15 @@ export const JobForm = ({
                   placeholder="Maksimum (opsional)"
                   rounded="sm"
                   required={false}
-                  errorBorderColor="gray.200"
+                  // errorBorderColor="gray.200"
                 />
               </InputGroup>
             </Stack>
             {!!errors.minSalary && (
               <FormErrorMessage>{errors.minSalary[0]}</FormErrorMessage>
+            )}
+            {!!errors.maxSalary && (
+              <FormErrorMessage>{errors.maxSalary[0]}</FormErrorMessage>
             )}
             <FormHelperText>
               Anda tidak perlu mengisi kolom &ldquo;Maksimum&rdquo; jika yang
@@ -303,6 +301,7 @@ export const JobForm = ({
             color="white"
             rounded="sm"
             _hover={{ bg: 'gray.600' }}
+            isLoading={mutation.isPending}
           >
             Buat lowongan
           </Button>

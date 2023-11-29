@@ -1,10 +1,16 @@
+import type { JobSchema } from '@/schemas/job'
 import type { JobQuery } from '@/types/job'
-import { Prisma } from '@prisma/client'
 import prisma from '@/libs/db'
 
-export const createJob = async (job: Prisma.JobCreateInput) =>
+/**
+ * Create a new job to database
+ */
+export const createJob = async (job: JobSchema) =>
   await prisma.job.create({ data: job })
 
+/**
+ * Get list of jobs from database
+ */
 export const getJobs = async (query: JobQuery) => {
   const page = query.page || 1
   const skip = (Number(page) - 1) * 10

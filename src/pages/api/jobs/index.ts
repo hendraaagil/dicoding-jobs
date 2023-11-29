@@ -13,7 +13,7 @@ export default async function handler(
         return res.status(400).json(validation.error.formErrors.fieldErrors)
       }
 
-      const job = await createJob(req.body)
+      const job = await createJob(validation.data)
       return res.status(201).json(job)
     } catch (error) {
       console.error(error)
