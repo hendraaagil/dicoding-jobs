@@ -53,7 +53,7 @@ export default function Page() {
             <Text>Buat Lowongan</Text>
           </Link>
         </Stack>
-        <Stack w="full" spacing={6}>
+        <Stack as="section" w="full" spacing={6}>
           {isLoading
             ? Array.from(Array(10).keys()).map((i) => (
                 <CardSkeletonDashboard key={i} />

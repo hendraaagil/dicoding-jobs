@@ -30,20 +30,15 @@ test.describe('Search', () => {
 })
 
 test.describe('Pagination', () => {
-  test('should cannot go to previous page', async ({ page }) => {
+  test('should be able to navigate between page', async ({ page }) => {
     const prevButton = page.getByLabel('Previous page')
-    await expect(prevButton).toBeDisabled()
-  })
-
-  test('should be able to go to next page', async ({ page }) => {
     const nextButton = page.getByLabel('Next page')
+
+    await expect(prevButton).toBeDisabled()
     await expect(nextButton).toBeEnabled()
-  })
 
-  test('should be direct to page 2', async ({ page }) => {
-    const page2Button = page.getByRole('button', { name: '2' })
-    await page2Button.click()
-
+    await nextButton.click()
     await expect(page).toHaveURL(/.*?\/jobs\?page=2/)
+    await expect(prevButton).toBeEnabled()
   })
 })

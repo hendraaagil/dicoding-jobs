@@ -164,6 +164,11 @@ export const RichText = ({ content, setContent }: RichTextProps) => {
       StarterKit,
       Underline,
     ],
+    editorProps: {
+      attributes: {
+        'data-testid': 'rich-text-editor',
+      },
+    },
     content,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())

@@ -52,7 +52,10 @@ export const JobCardDashboard = ({
   // TODO: Add delete handler
 
   return (
-    <CardContainer alignItems={{ base: 'unset', md: 'end' }}>
+    <CardContainer
+      alignItems={{ base: 'unset', md: 'end' }}
+      data-testid="job-card"
+    >
       <Stack direction="row" alignItems="center" columnGap={4}>
         <Image
           src="/cover.png"

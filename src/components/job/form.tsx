@@ -129,7 +129,11 @@ export const JobForm = ({
 
         <FormControl isInvalid={!!errors.jobTypeId} isRequired>
           <FormLabel>Tipe Pekerjaan</FormLabel>
-          <RadioGroup name="jobTypeId">
+          <RadioGroup
+            name="jobTypeId"
+            aria-required="true"
+            aria-label="Job Type"
+          >
             <Stack>
               {jobTypes.map((jobType) => (
                 <Radio key={jobType.id} value={jobType.id} colorScheme="navy">
@@ -275,7 +279,11 @@ export const JobForm = ({
 
         <FormControl isInvalid={!!errors.experienceId} isRequired>
           <FormLabel>Minimum pengalaman bekerja</FormLabel>
-          <RadioGroup name="experienceId">
+          <RadioGroup
+            name="experienceId"
+            aria-required="true"
+            aria-label="Experience"
+          >
             <Stack>
               {experiences.map((experience) => (
                 <Radio
