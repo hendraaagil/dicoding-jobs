@@ -1,5 +1,5 @@
-import type { GetServerSidePropsContext } from 'next'
-
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import {
   Flex,
@@ -10,33 +10,42 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-
-import { getJobs } from '@/apis/job'
-import { Container, Hero } from '@/components/layout'
-import { JobCard } from '@/components/job'
 import { Search } from 'lucide-react'
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  let page = context.query.page || null
-  if (page && Array.isArray(page)) {
-    page = page[0]
-  }
+import { useDebounce } from '@/hooks/use-debounce'
+import { getJobs } from '@/apis/job'
+import { Container, Hero } from '@/components/layout'
+import { CardSkeleton, JobCard } from '@/components/job'
 
-  return {
-    props: { page },
-  }
-}
+export default function Page() {
+  const router = useRouter()
+  const page = router.query.page as string | undefined
 
-export default function Page({ page }: { page: string | null }) {
-  const query = useQuery({
-    queryKey: ['jobs'],
-    queryFn: () => getJobs({ page: page ?? undefined }),
+  const [search, setSearch] = useState<string | undefined>(
+    (router.query.keyword as string) ?? undefined,
+  )
+  const debouncedSearch = useDebounce(search)
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['jobs', debouncedSearch, page],
+    queryFn: () =>
+      getJobs({ page: page ?? undefined, keyword: debouncedSearch }),
   })
-  console.log(query.data)
 
-  // TODO: Add skeleton loading
+  useEffect(() => {
+    if (
+      debouncedSearch !== undefined &&
+      debouncedSearch !== router.query.keyword
+    ) {
+      router.replace({ query: { keyword: debouncedSearch } }, undefined, {
+        shallow: true,
+      })
+    }
+  }, [debouncedSearch, router])
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
+  }
 
   return (
     <Flex as="main" pt={14} minH="100vh" direction="column">
@@ -70,12 +79,16 @@ export default function Page({ page }: { page: string | null }) {
               name="search"
               placeholder="Pekerjaan apa yang sedang kamu cari?"
               rounded="md"
+              value={search}
+              onChange={handleChange}
             />
           </InputGroup>
         </Stack>
-        {query.data?.data.map((job) => (
-          <JobCard key={job.id} job={job} />
-        ))}
+        {isLoading
+          ? Array.from(Array(10).keys()).map((i) => <CardSkeleton key={i} />)
+          : data?.data.map((job) => <JobCard key={job.id} job={job} />)}
+
+        {/* TODO: Add empty state */}
 
         {/* TODO: Add pagination */}
       </Container>

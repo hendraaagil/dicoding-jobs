@@ -1,6 +1,7 @@
 import type { JobSchema } from '@/schemas/job'
 import type { JobQuery } from '@/types/job'
 
+import { Prisma } from '@prisma/client'
 import crypto from 'crypto'
 import prisma from '@/libs/db'
 
@@ -20,11 +21,24 @@ export const createJob = async (job: JobSchema) => {
  */
 export const getJobs = async (query: JobQuery) => {
   const page = query.page || 1
+  const keyword = query.keyword || ''
   const skip = (Number(page) - 1) * 10
 
+  const where: Prisma.JobCountArgs['where'] = {
+    OR: [
+      { title: { contains: keyword, mode: 'insensitive' } },
+      {
+        position: {
+          name: { contains: keyword, mode: 'insensitive' },
+        },
+      },
+    ],
+  }
+
   return await Promise.all([
-    prisma.job.count(),
+    prisma.job.count({ where }),
     prisma.job.findMany({
+      where,
       select: {
         id: true,
         slug: true,

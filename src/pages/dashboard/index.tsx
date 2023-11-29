@@ -1,5 +1,3 @@
-import type { GetServerSidePropsContext } from 'next'
-
 import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@chakra-ui/next-js'
@@ -8,28 +6,17 @@ import { Plus } from 'lucide-react'
 
 import { getJobs } from '@/apis/job'
 import { Container } from '@/components/layout'
-import { JobCardDashboard } from '@/components/job'
+import { CardSkeletonDashboard, JobCardDashboard } from '@/components/job'
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  let page = context.query.page || null
-  if (page && Array.isArray(page)) {
-    page = page[0]
-  }
-
-  return {
-    props: { page },
-  }
-}
-
-export default function Page({ page }: { page: string | null }) {
+export default function Page() {
   const router = useRouter()
-  const query = useQuery({
-    queryKey: ['jobs'],
+  const page = router.query.page as string | undefined
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['jobs', page],
     queryFn: () => getJobs({ page: page ?? undefined }),
   })
-  console.log(query.data)
+  console.log(data)
 
   // TODO: Add skeleton loading
 
@@ -62,9 +49,13 @@ export default function Page({ page }: { page: string | null }) {
           </Link>
         </Stack>
         <Stack w="full" spacing={6}>
-          {query.data?.data.map((job) => (
-            <JobCardDashboard key={job.id} job={job} router={router} />
-          ))}
+          {isLoading
+            ? Array.from(Array(10).keys()).map((i) => (
+                <CardSkeletonDashboard key={i} />
+              ))
+            : data?.data.map((job) => (
+                <JobCardDashboard key={job.id} job={job} router={router} />
+              ))}
         </Stack>
 
         {/* TODO: Add pagination */}

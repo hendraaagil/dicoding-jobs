@@ -2,7 +2,16 @@ import type { NextRouter } from 'next/router'
 import type { JobItem } from '@/types/job'
 
 import Image from 'next/image'
-import { Box, BoxProps, Button, Stack, Tag, Text } from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  Button,
+  Skeleton,
+  SkeletonText,
+  Stack,
+  Tag,
+  Text,
+} from '@chakra-ui/react'
 import {
   Briefcase,
   Building2,
@@ -91,6 +100,19 @@ export const JobCardDashboard = ({
   )
 }
 
+export const CardSkeletonDashboard = () => (
+  <CardContainer w="full">
+    <Stack direction="row" alignItems="center" columnGap={4}>
+      <Skeleton w={32} h={32} />
+      <Stack>
+        <SkeletonText noOfLines={1} skeletonHeight={8} mb={2} w={72} />
+        <SkeletonText noOfLines={1} skeletonHeight={4} w={36} />
+        <SkeletonText noOfLines={1} skeletonHeight={4} w={40} />
+      </Stack>
+    </Stack>
+  </CardContainer>
+)
+
 export const JobCard = ({ job }: { job: JobItem }) => (
   <Link
     w="full"
@@ -143,4 +165,27 @@ export const JobCard = ({ job }: { job: JobItem }) => (
       </Stack>
     </CardContainer>
   </Link>
+)
+
+export const CardSkeleton = () => (
+  <CardContainer w="full">
+    <Stack direction="row" alignItems="center" columnGap={4}>
+      <Skeleton w={32} h={32} />
+      <Stack h="full" justifyContent="space-between">
+        <SkeletonText noOfLines={1} skeletonHeight={8} mb={2} w={72} />
+        <Stack>
+          <SkeletonText noOfLines={1} skeletonHeight={4} w={32} />
+          <SkeletonText noOfLines={1} skeletonHeight={4} w={36} />
+          <SkeletonText noOfLines={1} skeletonHeight={4} w={40} />
+        </Stack>
+      </Stack>
+    </Stack>
+    <Stack alignItems="end" justifyContent="space-between">
+      <SkeletonText noOfLines={1} skeletonHeight={4} w={20} />
+      <Stack alignItems="end">
+        <SkeletonText noOfLines={1} skeletonHeight={4} w={36} />
+        <SkeletonText noOfLines={1} skeletonHeight={4} w={40} />
+      </Stack>
+    </Stack>
+  </CardContainer>
 )

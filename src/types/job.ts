@@ -1,5 +1,6 @@
 export type JobQuery = {
   page?: string
+  keyword?: string
 }
 
 export type JobItem = {

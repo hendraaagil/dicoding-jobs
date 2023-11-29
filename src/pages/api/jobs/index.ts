@@ -21,8 +21,11 @@ export default async function handler(
     }
   } else if (req.method === 'GET') {
     try {
-      const { page } = req.query
-      const [count, jobs] = await getJobs({ page: page as string })
+      const { page, keyword } = req.query
+      const [count, jobs] = await getJobs({
+        page: page as string,
+        keyword: keyword as string,
+      })
       const totalPage = Math.ceil(count / 10)
       const currentPage = Number(page) || 1
       const hasNextPage = currentPage < totalPage
