@@ -1,12 +1,19 @@
 import type { JobSchema } from '@/schemas/job'
 import type { JobQuery } from '@/types/job'
+
+import crypto from 'crypto'
 import prisma from '@/libs/db'
 
 /**
  * Create a new job to database
  */
-export const createJob = async (job: JobSchema) =>
-  await prisma.job.create({ data: job })
+export const createJob = async (job: JobSchema) => {
+  const randomString = crypto.randomBytes(4).toString('hex')
+  const slug =
+    job.title.toLowerCase().replace(/[\W_]/g, '-') + '-' + randomString
+
+  return await prisma.job.create({ data: { ...job, slug } })
+}
 
 /**
  * Get list of jobs from database
@@ -20,6 +27,7 @@ export const getJobs = async (query: JobQuery) => {
     prisma.job.findMany({
       select: {
         id: true,
+        slug: true,
         title: true,
         createdAt: true,
         expiresAt: true,

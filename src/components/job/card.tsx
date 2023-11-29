@@ -62,7 +62,7 @@ export const JobCardDashboard = ({ job }: { job: JobItem }) => {
       </Stack>
       <Stack>
         <Button
-          onClick={() => router.push(`/dashboard/edit/${job.id}`)}
+          onClick={() => router.push(`/dashboard/edit/${job.slug}`)}
           leftIcon={<Pencil size={16} />}
           variant="outline"
           colorScheme="gray"
@@ -90,7 +90,7 @@ export const JobCardDashboard = ({ job }: { job: JobItem }) => {
 export const JobCard = ({ job }: { job: JobItem }) => (
   <Link
     w="full"
-    href={`/jobs/${job.id}`}
+    href={`/jobs/${job.slug}`}
     _hover={{ textDecoration: 'none', bg: 'gray.50' }}
   >
     <CardContainer w="full">

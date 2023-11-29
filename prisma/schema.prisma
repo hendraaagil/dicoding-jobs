@@ -52,6 +52,7 @@ model Experience {
 
 model Job {
   id              String   @id @default(uuid()) @db.Uuid
+  slug            String   @unique @db.VarChar(255)
   title           String   @db.VarChar(255)
   description     String   @db.Text
   maxCandidates   Int      @default(1) @map("max_candidates")

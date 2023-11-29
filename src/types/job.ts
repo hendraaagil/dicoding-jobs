@@ -3,6 +3,7 @@ export type JobQuery = {
 }
 
 export type JobItem = {
+  slug: string
   title: string
   expiresAt: string
   jobType: { name: string }

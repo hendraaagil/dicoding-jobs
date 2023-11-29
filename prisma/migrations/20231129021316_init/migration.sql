@@ -37,12 +37,14 @@ CREATE TABLE "experiences" (
 -- CreateTable
 CREATE TABLE "jobs" (
     "id" UUID NOT NULL,
+    "slug" VARCHAR(255) NOT NULL,
     "title" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
     "max_candidates" INTEGER NOT NULL DEFAULT 1,
     "min_salary" INTEGER NOT NULL,
     "max_salary" INTEGER,
     "is_salary_visible" BOOLEAN NOT NULL DEFAULT false,
+    "is_can_remote" BOOLEAN NOT NULL DEFAULT false,
     "expires_at" TIMESTAMPTZ NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,6 +67,9 @@ CREATE UNIQUE INDEX "locations_name_key" ON "locations"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "experiences_name_key" ON "experiences"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "jobs_slug_key" ON "jobs"("slug");
 
 -- AddForeignKey
 ALTER TABLE "jobs" ADD CONSTRAINT "jobs_position_id_fkey" FOREIGN KEY ("position_id") REFERENCES "positions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
