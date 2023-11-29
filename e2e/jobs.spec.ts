@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Search', () => {
   test('should display not found message', async ({ page }) => {
-    const searchInput = page.getByRole('search')
+    const searchInput = page.getByRole('searchbox')
     const inputText = 'not an engineer'
 
     await searchInput.click()
@@ -18,7 +18,7 @@ test.describe('Search', () => {
   })
 
   test('should display job list', async ({ page }) => {
-    const searchInput = page.getByRole('search')
+    const searchInput = page.getByRole('searchbox')
     const inputText = 'engineer'
 
     await searchInput.click()

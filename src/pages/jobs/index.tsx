@@ -85,8 +85,8 @@ export default function Page({ keyword }: { keyword?: string }) {
             <Input
               type="search"
               name="search"
-              role="search"
               placeholder="Pekerjaan apa yang sedang kamu cari?"
+              fontSize="sm"
               rounded="md"
               value={search}
               onChange={handleChange}

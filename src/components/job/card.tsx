@@ -27,7 +27,7 @@ import { formatDate } from '@/libs/format'
 
 const CardContainer = ({ children, ...rest }: BoxProps) => (
   <Box
-    p={{ base: 2, sm: 6 }}
+    p={{ base: 2, sm: 4 }}
     w="full"
     display="flex"
     flexDirection={{ base: 'column', md: 'row' }}
@@ -60,8 +60,8 @@ export const JobCardDashboard = ({
         <Image
           src="/cover.png"
           alt="Job's cover image"
-          width={128}
-          height={128}
+          width={96}
+          height={96}
           style={{ borderRadius: '0.25rem' }}
           priority
         />
@@ -71,11 +71,11 @@ export const JobCardDashboard = ({
           </Text>
           <Stack direction="row" alignItems="center">
             <Upload size={16} />
-            <Text>Dibuat: {formatDate(job.createdAt)}</Text>
+            <Text fontSize="sm">Dibuat: {formatDate(job.createdAt)}</Text>
           </Stack>
           <Stack direction="row" alignItems="center">
             <Clock size={16} />
-            <Text>Aktif hingga: {formatDate(job.expiresAt)}</Text>
+            <Text fontSize="sm">Aktif hingga: {formatDate(job.expiresAt)}</Text>
           </Stack>
         </Stack>
       </Stack>
@@ -109,7 +109,7 @@ export const JobCardDashboard = ({
 export const CardSkeletonDashboard = () => (
   <CardContainer w="full">
     <Stack direction="row" alignItems="center" columnGap={4}>
-      <Skeleton w={32} h={32} />
+      <Skeleton w={24} h={24} />
       <Stack>
         <SkeletonText
           noOfLines={1}
@@ -135,26 +135,31 @@ export const JobCard = ({ job }: { job: JobItem }) => (
         <Image
           src="/cover.png"
           alt="Job's cover image"
-          width={128}
-          height={128}
+          width={96}
+          height={96}
           style={{ borderRadius: '0.25rem' }}
           priority
         />
         <Stack>
-          <Text mb={2} fontWeight="700">
+          <Text mb={{ base: 0, sm: 2 }} fontWeight="700">
             {job.title}
           </Text>
           <Stack direction="row" alignItems="center">
             <Building2 size={16} />
-            <Text>Dicoding Indonesia</Text>
+            <Text fontSize="xs">Dicoding Indonesia</Text>
           </Stack>
-          <Stack direction="row" alignItems="center">
-            <MapPin size={16} />
-            <Text>{job.location.name}</Text>
-          </Stack>
-          <Stack direction="row" alignItems="center">
-            <Briefcase size={16} />
-            <Text>{job.experience.name}</Text>
+          <Stack
+            direction={{ base: 'column', sm: 'row' }}
+            alignItems={{ base: 'start', sm: 'center' }}
+          >
+            <Stack direction="row" alignItems="center">
+              <MapPin size={16} />
+              <Text fontSize="xs">{job.location.name}</Text>
+            </Stack>
+            <Stack direction="row" alignItems="center">
+              <Briefcase size={16} />
+              <Text fontSize="xs">{job.experience.name}</Text>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
@@ -165,6 +170,7 @@ export const JobCard = ({ job }: { job: JobItem }) => (
         <Tag
           px={4}
           w="fit-content"
+          fontSize="xs"
           variant="outline"
           colorScheme="blue"
           bg="blue.50"
@@ -173,8 +179,8 @@ export const JobCard = ({ job }: { job: JobItem }) => (
           {job.jobType.name}
         </Tag>
         <Stack alignItems={{ base: 'start', md: 'end' }}>
-          <Text>Dibuat pada {formatDate(job.createdAt)}</Text>
-          <Text>Lamar sebelum {formatDate(job.expiresAt)}</Text>
+          <Text fontSize="xs">Dibuat pada {formatDate(job.createdAt)}</Text>
+          <Text fontSize="xs">Lamar sebelum {formatDate(job.expiresAt)}</Text>
         </Stack>
       </Stack>
     </CardContainer>
@@ -184,7 +190,7 @@ export const JobCard = ({ job }: { job: JobItem }) => (
 export const CardSkeleton = () => (
   <CardContainer>
     <Stack direction="row" alignItems="center" columnGap={4}>
-      <Skeleton w={32} h={32} />
+      <Skeleton w={24} h={24} />
       <Stack h="full" justifyContent="space-between">
         <SkeletonText
           noOfLines={1}
@@ -195,7 +201,6 @@ export const CardSkeleton = () => (
         <Stack>
           <SkeletonText noOfLines={1} skeletonHeight={4} w={32} />
           <SkeletonText noOfLines={1} skeletonHeight={4} w={36} />
-          <SkeletonText noOfLines={1} skeletonHeight={4} w={40} />
         </Stack>
       </Stack>
     </Stack>
