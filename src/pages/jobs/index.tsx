@@ -15,16 +15,16 @@ import { Search } from 'lucide-react'
 import { useDebounce } from '@/hooks/use-debounce'
 import { getJobs } from '@/apis/job'
 import { Container, Hero } from '@/components/layout'
-import { CardSkeleton, JobCard } from '@/components/job'
+import { CardSkeleton, JobCard, Pagination } from '@/components/job'
 
 export default function Page() {
   const router = useRouter()
   const page = router.query.page as string | undefined
 
-  const [search, setSearch] = useState<string | undefined>(
-    (router.query.keyword as string) ?? undefined,
+  const [search, setSearch] = useState<string>(
+    (router.query.keyword as string) ?? '',
   )
-  const debouncedSearch = useDebounce(search)
+  const debouncedSearch = useDebounce<string | undefined>(search || undefined)
 
   const { data, isLoading } = useQuery({
     queryKey: ['jobs', debouncedSearch, page],
@@ -90,7 +90,9 @@ export default function Page() {
 
         {/* TODO: Add empty state */}
 
-        {/* TODO: Add pagination */}
+        {data?.pagination && (
+          <Pagination router={router} pagination={data?.pagination} />
+        )}
       </Container>
     </Flex>
   )

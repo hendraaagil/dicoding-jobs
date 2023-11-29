@@ -2,6 +2,7 @@ import type { NextRouter } from 'next/router'
 import type { JobItem } from '@/types/job'
 
 import Image from 'next/image'
+import { Link } from '@chakra-ui/next-js'
 import {
   Box,
   BoxProps,
@@ -23,7 +24,6 @@ import {
 } from 'lucide-react'
 
 import { formatDate } from '@/libs/format'
-import { Link } from '@chakra-ui/next-js'
 
 const CardContainer = ({ children, ...rest }: BoxProps) => (
   <Box

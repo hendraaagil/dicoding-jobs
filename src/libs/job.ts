@@ -50,9 +50,8 @@ export const getJobs = async (query: JobQuery) => {
         location: { select: { name: true } },
       },
       orderBy: { createdAt: 'desc' },
-      // TODO: Enable pagination
-      // skip: skip,
-      // take: 10,
+      skip: skip,
+      take: 10,
     }),
   ])
 }

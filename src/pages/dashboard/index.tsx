@@ -6,7 +6,11 @@ import { Plus } from 'lucide-react'
 
 import { getJobs } from '@/apis/job'
 import { Container } from '@/components/layout'
-import { CardSkeletonDashboard, JobCardDashboard } from '@/components/job'
+import {
+  CardSkeletonDashboard,
+  JobCardDashboard,
+  Pagination,
+} from '@/components/job'
 
 export default function Page() {
   const router = useRouter()
@@ -16,9 +20,6 @@ export default function Page() {
     queryKey: ['jobs', page],
     queryFn: () => getJobs({ page: page ?? undefined }),
   })
-  console.log(data)
-
-  // TODO: Add skeleton loading
 
   return (
     <Flex as="main" pt={14} minH="100vh">
@@ -56,9 +57,10 @@ export default function Page() {
             : data?.data.map((job) => (
                 <JobCardDashboard key={job.id} job={job} router={router} />
               ))}
+          {data?.pagination && (
+            <Pagination router={router} pagination={data?.pagination} />
+          )}
         </Stack>
-
-        {/* TODO: Add pagination */}
       </Container>
     </Flex>
   )

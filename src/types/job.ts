@@ -14,12 +14,14 @@ export type JobItem = {
   createdAt: string
 }
 
+export type JobPagination = {
+  totalPage: number
+  currentPage: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+}
+
 export type JobList = {
   data: JobItem[]
-  pagination: {
-    totalPage: number
-    currentPage: number
-    hasNextPage: boolean
-    hasPrevPage: boolean
-  }
+  pagination: JobPagination
 }
