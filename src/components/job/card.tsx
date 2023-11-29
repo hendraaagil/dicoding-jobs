@@ -1,8 +1,8 @@
+import type { NextRouter } from 'next/router'
 import type { JobItem } from '@/types/job'
 
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { Box, BoxProps, Button, Stack, Text } from '@chakra-ui/react'
+import { Box, BoxProps, Button, Stack, Tag, Text } from '@chakra-ui/react'
 import {
   Briefcase,
   Building2,
@@ -30,9 +30,13 @@ const CardContainer = ({ children, ...rest }: BoxProps) => (
   </Box>
 )
 
-export const JobCardDashboard = ({ job }: { job: JobItem }) => {
-  const router = useRouter()
-
+export const JobCardDashboard = ({
+  job,
+  router,
+}: {
+  job: JobItem
+  router: NextRouter
+}) => {
   // TODO: Add delete handler
 
   return (
@@ -107,28 +111,35 @@ export const JobCard = ({ job }: { job: JobItem }) => (
           <Text mb={2} fontWeight="700">
             {job.title}
           </Text>
-          <Stack direction="row" alignItems="center" spacing={4}>
-            <Stack direction="row" alignItems="center">
-              <Building2 size={16} />
-              <Text>Dicoding Indonesia</Text>
-            </Stack>
-            <Text>{job.jobType.name}</Text>
+          <Stack direction="row" alignItems="center">
+            <Building2 size={16} />
+            <Text>Dicoding Indonesia</Text>
           </Stack>
-          <Stack direction="row" alignItems="center" spacing={4}>
-            <Stack direction="row" alignItems="center">
-              <MapPin size={16} />
-              <Text>{job.location.name}</Text>
-            </Stack>
-            <Stack direction="row" alignItems="center">
-              <Briefcase size={16} />
-              <Text>{job.experience.name}</Text>
-            </Stack>
+          <Stack direction="row" alignItems="center">
+            <MapPin size={16} />
+            <Text>{job.location.name}</Text>
+          </Stack>
+          <Stack direction="row" alignItems="center">
+            <Briefcase size={16} />
+            <Text>{job.experience.name}</Text>
           </Stack>
         </Stack>
       </Stack>
-      <Stack alignItems="end" justifyContent="end">
-        <Text>Dibuat pada {formatDate(job.createdAt)}</Text>
-        <Text>Lamar sebelum {formatDate(job.expiresAt)}</Text>
+      <Stack alignItems="end" justifyContent="space-between">
+        <Tag
+          px={4}
+          w="fit-content"
+          variant="outline"
+          colorScheme="blue"
+          bg="blue.50"
+          borderRadius="full"
+        >
+          {job.jobType.name}
+        </Tag>
+        <Stack alignItems="end">
+          <Text>Dibuat pada {formatDate(job.createdAt)}</Text>
+          <Text>Lamar sebelum {formatDate(job.expiresAt)}</Text>
+        </Stack>
       </Stack>
     </CardContainer>
   </Link>

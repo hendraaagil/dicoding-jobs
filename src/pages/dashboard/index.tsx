@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext } from 'next'
 
+import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@chakra-ui/next-js'
 import { Flex, Heading, Stack } from '@chakra-ui/react'
@@ -23,6 +24,7 @@ export const getServerSideProps = async (
 }
 
 export default function Page({ page }: { page: string | null }) {
+  const router = useRouter()
   const query = useQuery({
     queryKey: ['jobs'],
     queryFn: () => getJobs({ page: page ?? undefined }),
@@ -61,7 +63,7 @@ export default function Page({ page }: { page: string | null }) {
         </Stack>
         <Stack w="full" spacing={6}>
           {query.data?.data.map((job) => (
-            <JobCardDashboard key={job.id} job={job} />
+            <JobCardDashboard key={job.id} job={job} router={router} />
           ))}
         </Stack>
 
