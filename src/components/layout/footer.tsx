@@ -5,7 +5,7 @@ export const Footer = () => (
   <VStack
     as="footer"
     mx="auto"
-    px={4}
+    px={{ base: 2, sm: 4 }}
     py={8}
     spacing={6}
     maxW="container.xl"

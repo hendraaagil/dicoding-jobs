@@ -15,7 +15,7 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => (
     >
       <Flex
         mx="auto"
-        px={4}
+        px={{ base: 2, sm: 4 }}
         w="full"
         maxW="container.xl"
         direction="column"

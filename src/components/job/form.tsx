@@ -249,7 +249,7 @@ export const JobForm = ({
               <FormErrorMessage>{errors.maxSalary[0]}</FormErrorMessage>
             )}
             <FormHelperText>
-              Anda tidak perlu mengisi kolom &ldquo;Maksimum&rdquo; jika yang
+              Anda tidak perlu mengisi kolom &quot;Maksimum&quot; jika yang
               dimasukkan adalah gaji pokok.
             </FormHelperText>
           </FormControl>
@@ -293,7 +293,12 @@ export const JobForm = ({
           )}
         </FormControl>
 
-        <ButtonGroup w="full">
+        <ButtonGroup
+          w="full"
+          flexDirection={{ base: 'column', sm: 'row' }}
+          spacing={{ base: 0, sm: 4 }}
+          rowGap={{ base: 4, sm: 0 }}
+        >
           <Button
             type="submit"
             w="full"

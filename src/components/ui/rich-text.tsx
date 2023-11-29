@@ -173,7 +173,7 @@ export const RichText = ({ content, setContent }: RichTextProps) => {
   return (
     <Box border="1px" borderColor="gray.200" rounded="sm">
       <Menu editor={editor} />
-      <Box py={2} px={4} minH="xs" maxH="lg" overflow="auto">
+      <Box py={2} px={{ base: 2, sm: 4 }} minH="xs" maxH="lg" overflow="auto">
         <EditorContent editor={editor} />
       </Box>
     </Box>

@@ -4,7 +4,7 @@ export const Container = ({ children, ...rest }: StackProps) => (
   <Stack
     direction="column"
     mx="auto"
-    px={4}
+    px={{ base: 2, sm: 4 }}
     py={10}
     w="full"
     align="start"

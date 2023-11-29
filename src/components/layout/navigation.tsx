@@ -1,7 +1,18 @@
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Link as ChakraLink, LinkProps } from '@chakra-ui/next-js'
-import { Flex, Text } from '@chakra-ui/react'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  IconButton,
+  Stack,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { Menu } from 'lucide-react'
 
 const navigations = [
   {
@@ -14,7 +25,11 @@ const navigations = [
   },
 ]
 
-const Link = ({ name, href }: { name: string; href: string }) => {
+const Link = ({
+  name,
+  href,
+  ...rest
+}: { name: string; href: string } & LinkProps) => {
   const pathname = usePathname()
   const isActive = pathname === href
 
@@ -36,7 +51,46 @@ const Link = ({ name, href }: { name: string; href: string }) => {
     linkProps.borderBottomColor = 'navy.500'
   }
 
-  return <ChakraLink {...linkProps}>{name}</ChakraLink>
+  return (
+    <ChakraLink {...linkProps} {...rest}>
+      {name}
+    </ChakraLink>
+  )
+}
+
+const MobileNav = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <>
+      <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay backdropFilter="blur(2px)" />
+        <DrawerContent py={6} rounded="sm">
+          <DrawerBody>
+            <Stack>
+              {navigations.map((navigation) => (
+                <Link
+                  key={navigation.name}
+                  name={navigation.name}
+                  href={navigation.href}
+                  onClick={onClose}
+                />
+              ))}
+            </Stack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      <IconButton
+        aria-label="Show menu"
+        icon={<Menu />}
+        display={{ base: 'flex', sm: 'none' }}
+        variant="outline"
+        rounded="sm"
+        onClick={onOpen}
+      />
+    </>
+  )
 }
 
 export const Navigation = () => (
@@ -51,7 +105,7 @@ export const Navigation = () => (
     zIndex={10}
   >
     <Flex
-      px={4}
+      px={{ base: 2, sm: 4 }}
       py={2}
       mx="auto"
       w="full"
@@ -70,7 +124,11 @@ export const Navigation = () => (
           Jobs
         </Text>
       </Flex>
-      <Flex columnGap={8} alignItems="center">
+      <Flex
+        display={{ base: 'none', sm: 'flex' }}
+        columnGap={{ base: 4, md: 8 }}
+        alignItems="center"
+      >
         {navigations.map((navigation) => (
           <Link
             key={navigation.name}
@@ -79,6 +137,7 @@ export const Navigation = () => (
           />
         ))}
       </Flex>
+      <MobileNav />
     </Flex>
   </Flex>
 )

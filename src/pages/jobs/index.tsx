@@ -15,7 +15,7 @@ import { Search } from 'lucide-react'
 import { useDebounce } from '@/hooks/use-debounce'
 import { getJobs } from '@/apis/job'
 import { Container, Hero } from '@/components/layout'
-import { CardSkeleton, JobCard, Pagination } from '@/components/job'
+import { CardSkeleton, Empty, JobCard, Pagination } from '@/components/job'
 
 export default function Page() {
   const router = useRouter()
@@ -62,15 +62,16 @@ export default function Page() {
       </Hero>
       <Container spacing={6}>
         <Stack
-          direction="row"
           w="full"
           justify="space-between"
-          alignItems="center"
+          direction={{ base: 'column', md: 'row' }}
+          alignItems={{ base: 'start', md: 'center' }}
+          spacing={{ base: 4, md: 2 }}
         >
           <Heading as="h3" size="lg">
             Daftar Pekerjaan Terbaru
           </Heading>
-          <InputGroup maxW="sm">
+          <InputGroup maxW={{ base: 'full', md: 'sm' }}>
             <InputLeftElement pointerEvents="none">
               <Search size={20} />
             </InputLeftElement>
@@ -87,9 +88,7 @@ export default function Page() {
         {isLoading
           ? Array.from(Array(10).keys()).map((i) => <CardSkeleton key={i} />)
           : data?.data.map((job) => <JobCard key={job.id} job={job} />)}
-
-        {/* TODO: Add empty state */}
-
+        {data?.data.length === 0 && <Empty keyword={debouncedSearch} />}
         {data?.pagination && (
           <Pagination router={router} pagination={data?.pagination} />
         )}
