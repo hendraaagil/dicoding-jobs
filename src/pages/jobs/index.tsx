@@ -60,7 +60,7 @@ export default function Page() {
           Temukan lowongan yang cocok untuk kamu
         </Text>
       </Hero>
-      <Container spacing={6}>
+      <Container as="section" spacing={6}>
         <Stack
           w="full"
           justify="space-between"
@@ -76,8 +76,9 @@ export default function Page() {
               <Search size={20} />
             </InputLeftElement>
             <Input
-              type="text"
+              type="search"
               name="search"
+              role="search"
               placeholder="Pekerjaan apa yang sedang kamu cari?"
               rounded="md"
               value={search}
