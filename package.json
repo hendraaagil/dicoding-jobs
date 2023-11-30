@@ -1,6 +1,6 @@
 {
   "name": "dicoding-jobs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,8 +16,7 @@
     "playwright:report": "playwright show-report",
     "test:e2e": "pnpm prisma:seed && playwright test && pnpm prisma:clean",
     "test:e2e:debug": "playwright test --debug",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:chromium": "playwright test --project=chromium"
+    "test:e2e:ui": "playwright test --ui"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

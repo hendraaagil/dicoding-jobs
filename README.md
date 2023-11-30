@@ -1,40 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Dicoding Jobs
 
-## Getting Started
+This project is used as a Technical Exercise Product Engineer at Dicoding.
 
-First, run the development server:
+## Local development setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Node.js `>= 18.x` is required and setup with [pnpm](https://pnpm.io/) is recommended.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install all dependencies
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+   ```sh
+   pnpm install
+   ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+2. Create `.env` file from [`.env.sample`](./.env.sample)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+   There is two `DATABASE_URL`, the first one is for running the app in development / production mode and the other one is for running the test. So, make sure you set the correct database before run the server / test.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Run database migration
 
-## Learn More
+   ```sh
+   pnpm prisma:migrate:dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Run database seeder
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```sh
+   pnpm prisma:seed
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+5. Run local development server
 
-## Deploy on Vercel
+   ```sh
+   pnpm dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is using [Playwright](https://playwright.dev/) for the test. If you want to run the test, make sure to use database with empty data and set to `.env` file.
+
+- Run end to end test
+
+  ```sh
+  pnpm test:e2e
+  ```
+
+- Run with debug mode
+
+  ```sh
+  pnpm test:e2e:debug
+  ```
+
+- Run with UI mode
+
+  ```sh
+  pnpm test:e2e:ui
+  ```
+
+#### Playwright command
+
+- Run codegen
+
+  ```sh
+  pnpm playwright:codegen
+  ```
+
+- Show report
+
+  ```sh
+  pnpm playwright:report
+  ```
+
+## Requirements
+
+- [x] Create vacancy
+- [x] Show list of vacancies
+- [x] Update vacancy
+- [x] Delete vacancy
+- [x] Show detail of vacancy
+- [x] Search vacancies
+- [x] End to end test using playwright
