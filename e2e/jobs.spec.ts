@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -49,9 +49,9 @@ test.describe('Job Detail', () => {
     const jobTitle = await jobLink.getByTestId('job-card-title').textContent()
     await jobLink.click()
 
+    const strRegExPattern = '\\b' + jobTitle + '\\b'
     await expect(page).toHaveURL(/.*?\/jobs\/[a-zA-Z0-9-]+/)
-    // TODO: Fix this
-    // await expect(page).toHaveTitle(jobTitle as string)
+    await expect(page).toHaveTitle(new RegExp(strRegExPattern, 'i'))
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       jobTitle as string,
     )

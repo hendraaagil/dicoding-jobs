@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
+import { NextSeo } from 'next-seo'
 import { Link } from '@chakra-ui/next-js'
 import { Flex, Heading, Stack, Text } from '@chakra-ui/react'
 import { Plus } from 'lucide-react'
@@ -23,50 +24,53 @@ export default function Page() {
   })
 
   return (
-    <Flex as="main" pt={14} minH="100vh">
-      <Container spacing={8}>
-        <Stack
-          w="full"
-          justify="space-between"
-          direction={{ base: 'column', sm: 'row' }}
-          alignItems={{ base: 'start', sm: 'center' }}
-          spacing={{ base: 4, sm: 2 }}
-        >
-          <Heading as="h3" size="lg">
-            Lowongan Saya
-          </Heading>
-          <Link
-            href="/dashboard/create"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            columnGap={2}
-            py={2}
-            px={4}
-            w={{ base: 'full', sm: 'auto' }}
-            bg="navy.500"
-            color="white"
-            rounded="sm"
-            _hover={{ textDecoration: 'none', bg: 'gray.600' }}
+    <>
+      <NextSeo title="Dashboard" />
+      <Flex as="main" pt={14} minH="100vh">
+        <Container spacing={8}>
+          <Stack
+            w="full"
+            justify="space-between"
+            direction={{ base: 'column', sm: 'row' }}
+            alignItems={{ base: 'start', sm: 'center' }}
+            spacing={{ base: 4, sm: 2 }}
           >
-            <Plus size={20} />
-            <Text>Buat Lowongan</Text>
-          </Link>
-        </Stack>
-        <Stack as="section" w="full" spacing={6}>
-          {isLoading
-            ? Array.from(Array(10).keys()).map((i) => (
-                <CardSkeletonDashboard key={i} />
-              ))
-            : data?.data.map((job) => (
-                <JobCardDashboard key={job.id} job={job} router={router} />
-              ))}
-          {data?.data.length === 0 && <Empty />}
-          {data?.pagination && (
-            <Pagination router={router} pagination={data?.pagination} />
-          )}
-        </Stack>
-      </Container>
-    </Flex>
+            <Heading as="h3" size="lg">
+              Lowongan Saya
+            </Heading>
+            <Link
+              href="/dashboard/create"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              columnGap={2}
+              py={2}
+              px={4}
+              w={{ base: 'full', sm: 'auto' }}
+              bg="navy.500"
+              color="white"
+              rounded="sm"
+              _hover={{ textDecoration: 'none', bg: 'gray.600' }}
+            >
+              <Plus size={20} />
+              <Text>Buat Lowongan</Text>
+            </Link>
+          </Stack>
+          <Stack as="section" w="full" spacing={6}>
+            {isLoading
+              ? Array.from(Array(10).keys()).map((i) => (
+                  <CardSkeletonDashboard key={i} />
+                ))
+              : data?.data.map((job) => (
+                  <JobCardDashboard key={job.id} job={job} router={router} />
+                ))}
+            {data?.data.length === 0 && <Empty />}
+            {data?.pagination && (
+              <Pagination router={router} pagination={data?.pagination} />
+            )}
+          </Stack>
+        </Container>
+      </Flex>
+    </>
   )
 }

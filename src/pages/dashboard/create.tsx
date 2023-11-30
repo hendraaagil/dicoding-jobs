@@ -1,6 +1,7 @@
 import type { Experience, JobType, Location, Position } from '@prisma/client'
 
 import React from 'react'
+import { NextSeo } from 'next-seo'
 import { Flex, Heading, Text } from '@chakra-ui/react'
 
 import {
@@ -39,20 +40,23 @@ export default function Page({
   experiences,
 }: PageProps) {
   return (
-    <Flex as="main" pt={14} minH="100vh" direction="column">
-      <Hero>
-        <Heading as="h1" size="2xl">
-          Buat lowongan pekerjaan
-        </Heading>
-        <Text maxW="lg" fontWeight="500">
-          Dicoding Jobs menghubungkan industri dengan talenta yang tepat.
-          Mencari tim baru tidak harus melelahkan dan boros biaya.
-        </Text>
-      </Hero>
-      <JobForm
-        choices={{ experiences, jobTypes, locations, positions }}
-        mode="create"
-      />
-    </Flex>
+    <>
+      <NextSeo title="Buat Lowongan" />
+      <Flex as="main" pt={14} minH="100vh" direction="column">
+        <Hero>
+          <Heading as="h1" size="2xl">
+            Buat lowongan pekerjaan
+          </Heading>
+          <Text maxW="lg" fontWeight="500">
+            Dicoding Jobs menghubungkan industri dengan talenta yang tepat.
+            Mencari tim baru tidak harus melelahkan dan boros biaya.
+          </Text>
+        </Hero>
+        <JobForm
+          choices={{ experiences, jobTypes, locations, positions }}
+          mode="create"
+        />
+      </Flex>
+    </>
   )
 }

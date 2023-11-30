@@ -8,6 +8,7 @@ export const Badge = ({ children, ...rest }: TagProps) => (
     variant="outline"
     colorScheme="blue"
     bg="blue.50"
+    color="blue.600"
     borderRadius="full"
     {...rest}
   >
