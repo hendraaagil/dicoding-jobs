@@ -1,10 +1,24 @@
 import { DefaultSeoProps } from 'next-seo'
 
+const title = 'Dicoding Jobs'
+const description =
+  'Dicoding Jobs adalah platform pencarian lowongan kerja untuk developer.'
 const config: DefaultSeoProps = {
-  defaultTitle: 'Dicoding Jobs',
+  defaultTitle: title,
   titleTemplate: '%s | Dicoding Jobs',
-  description:
-    'Dicoding Jobs adalah platform pencarian lowongan kerja untuk developer.',
+  description: description,
+  openGraph: {
+    siteName: title,
+    description: description,
+    images: [
+      {
+        url: 'https://jobs.dicoding.com/jobs-thumbnail.jpg',
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  },
   additionalMetaTags: [
     {
       httpEquiv: 'x-ua-compatible',
