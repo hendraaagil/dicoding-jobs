@@ -1,11 +1,11 @@
 import { test, expect, type Page } from '@playwright/test'
 
-test.describe.serial('Dashboard', () => {
+test.describe('Dashboard', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/dashboard')
   })
 
-  test.describe.serial('Pagination', () => {
+  test.describe('Pagination', () => {
     test('should be able to navigate between page', async ({ page }) => {
       const prevButton = page.getByLabel('Previous page')
       const nextButton = page.getByLabel('Next page')
@@ -20,7 +20,7 @@ test.describe.serial('Dashboard', () => {
     })
   })
 
-  test.describe.serial('Create', () => {
+  test.describe('Create', () => {
     test.beforeEach(async ({ page }) => {
       const createButton = page.getByRole('link', { name: 'Buat lowongan' })
       await createButton.click()
@@ -180,7 +180,7 @@ test.describe.serial('Dashboard', () => {
     })
   })
 
-  test.describe.serial('Edit', () => {
+  test.describe('Edit', () => {
     test.beforeEach(async ({ page }) => {
       const jobCard = page.getByTestId('job-card').first()
       const editButton = jobCard.getByRole('button', { name: 'Edit' })
@@ -258,7 +258,7 @@ test.describe.serial('Dashboard', () => {
     })
   })
 
-  test.describe.serial('Delete', () => {
+  test.describe('Delete', () => {
     test('should be able to delete an existing job', async ({ page }) => {
       const jobCard = page.getByTestId('job-card').first()
       const deleteButton = jobCard.getByRole('button', { name: 'Hapus' })

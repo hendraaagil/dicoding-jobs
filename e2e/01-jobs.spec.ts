@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe.serial('Jobs', () => {
+test.describe('Jobs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
   })
@@ -46,7 +46,10 @@ test.describe.serial('Jobs', () => {
   })
 
   test.describe('Job Detail', () => {
-    test('should display job detail and back to the list', async ({ page }) => {
+    test('should display job detail and back to the list', async ({
+      page,
+      isMobile,
+    }) => {
       const jobLink = page.locator('section > a').first()
       const jobTitle = await jobLink.getByTestId('job-card-title').textContent()
       await jobLink.click()
@@ -78,6 +81,11 @@ test.describe.serial('Jobs', () => {
 
       const jobCandidate = page.getByTestId('job-candidate')
       await expect(jobCandidate).toBeVisible()
+
+      if (isMobile) {
+        const menuButton = page.getByRole('button', { name: 'Show menu' })
+        await menuButton.click()
+      }
 
       const listButton = page.getByRole('link', { name: /Lowongan Kerja/i })
       await expect(listButton).toBeVisible()
