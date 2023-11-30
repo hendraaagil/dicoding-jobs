@@ -49,7 +49,10 @@ export default function Page({ job }: { job: JobDetail }) {
             {job.isSalaryVisible && (
               <Text fontSize="sm">{salaryText + ' per bulan'}</Text>
             )}
-            <Stack spacing={4} direction="row">
+            <Stack
+              spacing={{ base: 2, sm: 4 }}
+              direction={{ base: 'column', sm: 'row' }}
+            >
               <Stack spacing={1} direction="row">
                 <Building2 size={16} />
                 <Text
@@ -98,7 +101,11 @@ export default function Page({ job }: { job: JobDetail }) {
             <Heading as="h4" size="md">
               Informasi Tambahan
             </Heading>
-            <Stack direction="row" justifyContent="space-between" maxW="xl">
+            <Stack
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              maxW="xl"
+            >
               <Stack>
                 <Text fontWeight="700">Pengalaman bekerja</Text>
                 <Text data-testid="job-experience">{job.experience.name}</Text>

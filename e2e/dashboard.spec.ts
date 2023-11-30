@@ -251,6 +251,26 @@ test.describe('Edit', () => {
   })
 })
 
+test.describe('Delete', () => {
+  test('should be able to delete an existing job', async ({ page }) => {
+    const jobCard = page.getByTestId('job-card').first()
+    const deleteButton = jobCard.getByRole('button', { name: 'Hapus' })
+    await deleteButton.click()
+
+    const alertDialog = page.getByRole('alertdialog', {
+      name: 'Hapus Lowongan',
+    })
+    const cancelButton = alertDialog.getByRole('button', { name: 'Batal' })
+    const confirmButton = page.getByRole('button', { name: 'Hapus' })
+
+    await expect(alertDialog).toBeVisible()
+    await expect(cancelButton).toBeVisible()
+
+    await confirmButton.click()
+    await expect(page).toHaveURL(/.*?\/dashboard/)
+  })
+})
+
 const getFields = async (page: Page) => {
   const titleInput = page.getByRole('textbox', { name: 'Judul lowongan' })
   const positionInput = page.getByRole('combobox', { name: 'Posisi' })

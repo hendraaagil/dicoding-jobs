@@ -45,59 +45,60 @@ const CardContainer = ({ children, ...rest }: BoxProps) => (
 export const JobCardDashboard = ({
   job,
   router,
+  onOpen,
 }: {
   job: JobItem
   router: NextRouter
-}) => {
-  // TODO: Add delete handler
-
-  return (
-    <CardContainer
-      alignItems={{ base: 'unset', md: 'end' }}
-      data-testid="job-card"
-    >
-      <Stack direction="row" alignItems="center" columnGap={4}>
-        <JobCoverImage />
-        <Stack>
-          <Text mb={2} fontWeight="700">
-            {job.title}
-          </Text>
-          <Stack direction="row" alignItems="center">
-            <Upload size={16} />
-            <Text fontSize="sm">Dibuat: {formatDate(job.createdAt)}</Text>
-          </Stack>
-          <Stack direction="row" alignItems="center">
-            <Clock size={16} />
-            <Text fontSize="sm">Aktif hingga: {formatDate(job.expiresAt)}</Text>
-          </Stack>
+  onOpen: (slug: string) => void
+}) => (
+  <CardContainer
+    alignItems={{ base: 'unset', md: 'end' }}
+    data-testid="job-card"
+  >
+    <Stack direction="row" alignItems="center" columnGap={4}>
+      <JobCoverImage />
+      <Stack>
+        <Text mb={2} fontWeight="700">
+          {job.title}
+        </Text>
+        <Stack direction="row" alignItems="center">
+          <Upload size={16} />
+          <Text fontSize="sm">Dibuat: {formatDate(job.createdAt)}</Text>
+        </Stack>
+        <Stack direction="row" alignItems="center">
+          <Clock size={16} />
+          <Text fontSize="sm">Aktif hingga: {formatDate(job.expiresAt)}</Text>
         </Stack>
       </Stack>
-      <Stack>
-        <Button
-          onClick={() => router.push(`/dashboard/edit/${job.slug}`)}
-          leftIcon={<Pencil size={16} />}
-          variant="outline"
-          colorScheme="gray"
-          bg="gray.50"
-          rounded="sm"
-        >
-          Edit
-        </Button>
-        <Button
-          leftIcon={<Trash2 size={16} />}
-          variant="outline"
-          colorScheme="red"
-          bg="red.100"
-          rounded="sm"
-          border="none"
-          _hover={{ bg: 'red.200' }}
-        >
-          Hapus
-        </Button>
-      </Stack>
-    </CardContainer>
-  )
-}
+    </Stack>
+    <Stack direction={{ base: 'row', md: 'column' }}>
+      <Button
+        onClick={() => router.push(`/dashboard/edit/${job.slug}`)}
+        leftIcon={<Pencil size={16} />}
+        variant="outline"
+        colorScheme="gray"
+        w="full"
+        bg="gray.50"
+        rounded="sm"
+      >
+        Edit
+      </Button>
+      <Button
+        onClick={() => onOpen(job.slug)}
+        leftIcon={<Trash2 size={16} />}
+        variant="outline"
+        colorScheme="red"
+        w="full"
+        bg="red.100"
+        rounded="sm"
+        border="none"
+        _hover={{ bg: 'red.200' }}
+      >
+        Hapus
+      </Button>
+    </Stack>
+  </CardContainer>
+)
 
 export const CardSkeletonDashboard = () => (
   <CardContainer w="full">

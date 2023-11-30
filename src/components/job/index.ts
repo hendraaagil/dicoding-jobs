@@ -1,4 +1,5 @@
 export * from './card'
+export * from './delete'
 export * from './empty'
 export * from './form'
 export * from './image'

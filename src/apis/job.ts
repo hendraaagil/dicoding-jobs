@@ -27,6 +27,15 @@ export const updateJob = async (job: JobSchema, slug: string): Promise<Job> => {
 }
 
 /**
+ * Delete an existing job from API
+ */
+export const deleteJob = async (slug: string): Promise<void> => {
+  // Fake delay
+  await new Promise((r) => setTimeout(r, 500))
+  await axios.delete<Job>('/api/jobs/' + slug)
+}
+
+/**
  * Get list of jobs from API
  */
 export const getJobs = async (query?: JobQuery): Promise<JobList> => {

@@ -66,7 +66,7 @@ export const JobForm = ({
   const router = useRouter()
   const toast = useToast()
 
-  const mutation = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: (jobSchema: JobSchema) => {
       if (mode === 'edit') {
         return updateJob(jobSchema, job?.slug as string)
@@ -98,7 +98,7 @@ export const JobForm = ({
     formData.append('description', description)
 
     const data = Object.fromEntries(formData.entries()) as unknown as JobSchema
-    mutation.mutate(data)
+    mutate(data)
   }
 
   return (
@@ -337,7 +337,7 @@ export const JobForm = ({
             color="white"
             rounded="sm"
             _hover={{ bg: 'gray.600' }}
-            isLoading={mutation.isPending}
+            isLoading={isPending}
           >
             {mode === 'create' ? 'Buat' : 'Edit'} lowongan
           </Button>

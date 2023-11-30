@@ -1,14 +1,23 @@
 import { useRouter } from 'next/router'
-import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { NextSeo } from 'next-seo'
 import { Link } from '@chakra-ui/next-js'
-import { Flex, Heading, Stack, Text } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
 import { Plus } from 'lucide-react'
 
-import { getJobs } from '@/apis/job'
+import { deleteJob, getJobs } from '@/apis/job'
 import { Container } from '@/components/layout'
 import {
   CardSkeletonDashboard,
+  DeleteConfirmation,
   Empty,
   JobCardDashboard,
   Pagination,
@@ -18,14 +27,48 @@ export default function Page() {
   const router = useRouter()
   const page = router.query.page as string | undefined
 
+  const [jobSlug, setJobSlug] = useState<string>('')
+  const queryClient = useQueryClient()
+  const toast = useToast()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { data, isLoading } = useQuery({
     queryKey: ['jobs', page],
     queryFn: () => getJobs({ page: page ?? undefined }),
   })
 
+  const { mutate } = useMutation({
+    mutationFn: () => deleteJob(jobSlug),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] })
+      toast({
+        title: `Lowongan berhasil dihapus`,
+        status: 'success',
+        variant: 'left-accent',
+        position: 'bottom-right',
+        duration: 3000,
+      })
+    },
+  })
+
+  const handleOpenDialog = (slug: string) => {
+    setJobSlug(slug)
+    onOpen()
+  }
+
+  const handleDelete = () => {
+    mutate()
+    onClose()
+  }
+
   return (
     <>
       <NextSeo title="Dashboard" />
+      <DeleteConfirmation
+        isOpen={isOpen}
+        onClose={onClose}
+        onDelete={handleDelete}
+      />
       <Flex as="main" pt={14} minH="100vh">
         <Container spacing={8}>
           <Stack
@@ -62,7 +105,12 @@ export default function Page() {
                   <CardSkeletonDashboard key={i} />
                 ))
               : data?.data.map((job) => (
-                  <JobCardDashboard key={job.id} job={job} router={router} />
+                  <JobCardDashboard
+                    key={job.id}
+                    job={job}
+                    router={router}
+                    onOpen={handleOpenDialog}
+                  />
                 ))}
             {data?.data.length === 0 && <Empty />}
             {data?.pagination && (

@@ -24,6 +24,13 @@ export const updateJob = async (job: JobSchema, slug: string) => {
 }
 
 /**
+ * Delete an existing job from database
+ */
+export const deleteJob = async (slug: string) => {
+  return await prisma.job.delete({ where: { slug } })
+}
+
+/**
  * Get list of jobs from database
  */
 export const getJobs = async (query: JobQuery) => {
