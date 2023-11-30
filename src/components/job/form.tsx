@@ -162,9 +162,8 @@ export const JobForm = ({
 
         <FormControl isInvalid={!!errors.maxCandidates} isRequired>
           <FormLabel>Kandidat yang dibutuhkan</FormLabel>
-          <NumberInput min={1} defaultValue={job?.maxCandidates}>
+          <NumberInput min={1} max={1000} defaultValue={job?.maxCandidates}>
             <NumberInputField
-              type="number"
               name="maxCandidates"
               placeholder="Masukkan jumlah kandidat yang dibutuhkan"
               rounded="sm"
@@ -177,6 +176,7 @@ export const JobForm = ({
           {!!errors.maxCandidates && (
             <FormErrorMessage>{errors.maxCandidates[0]}</FormErrorMessage>
           )}
+          <FormHelperText>Maksimal 1000</FormHelperText>
         </FormControl>
 
         <FormControl isInvalid={!!errors.expiresAt} isRequired>

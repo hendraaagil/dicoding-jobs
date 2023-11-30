@@ -14,7 +14,8 @@ export const jobSchema = z
 
     maxCandidates: z.coerce
       .number({ required_error: 'Jumlah kandidat tidak boleh kosong!' })
-      .min(1, 'Jumlah kandidat tidak boleh kosong!'),
+      .min(1, 'Jumlah kandidat tidak boleh kosong!')
+      .max(1000, 'Jumlah kandidat maksimal 1000!'),
     minSalary: z.coerce
       .number({ required_error: 'Minimal gaji tidak boleh kosong!' })
       .min(1, 'Minimal gaji tidak boleh kosong!'),
