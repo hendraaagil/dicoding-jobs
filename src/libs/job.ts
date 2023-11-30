@@ -1,5 +1,5 @@
 import type { JobSchema } from '@/schemas/job'
-import type { JobQuery } from '@/types/job'
+import type { JobDetail, JobQuery } from '@/types/job'
 
 import { Prisma } from '@prisma/client'
 import crypto from 'crypto'
@@ -54,4 +54,33 @@ export const getJobs = async (query: JobQuery) => {
       take: 10,
     }),
   ])
+}
+
+/**
+ * Get a job by slug from database
+ */
+export const getJobBySlug = async (slug: string, hasSalary?: boolean) => {
+  const job = await prisma.job.findUnique({
+    where: { slug },
+    include: {
+      experience: true,
+      jobType: true,
+      location: true,
+      position: true,
+    },
+  })
+  if (!job) return null
+
+  const jobDetail: JobDetail = {
+    ...job,
+    expiresAt: job.expiresAt.toISOString(),
+    createdAt: job.createdAt.toISOString(),
+    updatedAt: job.updatedAt.toISOString(),
+  }
+  if (!hasSalary && !jobDetail.isSalaryVisible) {
+    delete jobDetail.minSalary
+    delete jobDetail.maxSalary
+  }
+
+  return jobDetail
 }

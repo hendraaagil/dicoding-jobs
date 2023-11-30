@@ -1,7 +1,6 @@
 import type { NextRouter } from 'next/router'
 import type { JobItem } from '@/types/job'
 
-import Image from 'next/image'
 import { Link } from '@chakra-ui/next-js'
 import {
   Box,
@@ -10,7 +9,6 @@ import {
   Skeleton,
   SkeletonText,
   Stack,
-  Tag,
   Text,
 } from '@chakra-ui/react'
 import {
@@ -24,6 +22,8 @@ import {
 } from 'lucide-react'
 
 import { formatDate } from '@/libs/format'
+import { JobCoverImage } from '@/components/job'
+import { Badge } from '@/components/ui'
 
 const CardContainer = ({ children, ...rest }: BoxProps) => (
   <Box
@@ -57,14 +57,7 @@ export const JobCardDashboard = ({
       data-testid="job-card"
     >
       <Stack direction="row" alignItems="center" columnGap={4}>
-        <Image
-          src="/cover.png"
-          alt="Job's cover image"
-          width={96}
-          height={96}
-          style={{ borderRadius: '0.25rem' }}
-          priority
-        />
+        <JobCoverImage />
         <Stack>
           <Text mb={2} fontWeight="700">
             {job.title}
@@ -132,16 +125,13 @@ export const JobCard = ({ job }: { job: JobItem }) => (
   >
     <CardContainer>
       <Stack direction="row" alignItems="center" columnGap={4}>
-        <Image
-          src="/cover.png"
-          alt="Job's cover image"
-          width={96}
-          height={96}
-          style={{ borderRadius: '0.25rem' }}
-          priority
-        />
+        <JobCoverImage />
         <Stack>
-          <Text mb={{ base: 0, sm: 2 }} fontWeight="700">
+          <Text
+            mb={{ base: 0, sm: 2 }}
+            fontWeight="700"
+            data-testid="job-card-title"
+          >
             {job.title}
           </Text>
           <Stack direction="row" alignItems="center">
@@ -167,17 +157,7 @@ export const JobCard = ({ job }: { job: JobItem }) => (
         alignItems={{ base: 'start', md: 'end' }}
         justifyContent="space-between"
       >
-        <Tag
-          px={4}
-          w="fit-content"
-          fontSize="xs"
-          variant="outline"
-          colorScheme="blue"
-          bg="blue.50"
-          borderRadius="full"
-        >
-          {job.jobType.name}
-        </Tag>
+        <Badge>{job.jobType.name}</Badge>
         <Stack alignItems={{ base: 'start', md: 'end' }}>
           <Text fontSize="xs">Dibuat pada {formatDate(job.createdAt)}</Text>
           <Text fontSize="xs">Lamar sebelum {formatDate(job.expiresAt)}</Text>

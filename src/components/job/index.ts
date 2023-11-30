@@ -1,4 +1,5 @@
 export * from './card'
 export * from './empty'
 export * from './form'
+export * from './image'
 export * from './pagination'

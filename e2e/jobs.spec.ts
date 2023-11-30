@@ -42,3 +42,45 @@ test.describe('Pagination', () => {
     await expect(prevButton).toBeEnabled()
   })
 })
+
+test.describe('Job Detail', () => {
+  test('should display job detail and back to the list', async ({ page }) => {
+    const jobLink = page.locator('section > a').first()
+    const jobTitle = await jobLink.getByTestId('job-card-title').textContent()
+    await jobLink.click()
+
+    await expect(page).toHaveURL(/.*?\/jobs\/[a-zA-Z0-9-]+/)
+    // TODO: Fix this
+    // await expect(page).toHaveTitle(jobTitle as string)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      jobTitle as string,
+    )
+
+    const jobCoverImage = page.getByAltText(`Job's cover image`)
+    await expect(jobCoverImage).toBeVisible()
+
+    const jobCompany = page.getByRole('link', { name: /Dicoding/i })
+    await expect(jobCompany).toBeVisible()
+
+    const jobLocation = page.getByTestId('job-location')
+    await expect(jobLocation).toBeVisible()
+
+    const jobType = page.getByTestId('job-type')
+    await expect(jobType).toBeVisible()
+
+    const jobDescription = page.getByTestId('job-description')
+    await expect(jobDescription).toBeVisible()
+
+    const jobExperience = page.getByTestId('job-experience')
+    await expect(jobExperience).toBeVisible()
+
+    const jobCandidate = page.getByTestId('job-candidate')
+    await expect(jobCandidate).toBeVisible()
+
+    const listButton = page.getByRole('link', { name: /Lowongan Kerja/i })
+    await expect(listButton).toBeVisible()
+    await listButton.click()
+
+    await expect(page).toHaveURL(/.*?\/jobs/)
+  })
+})
