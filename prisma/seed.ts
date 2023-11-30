@@ -53,6 +53,7 @@ const generateSlug = (title: string) =>
 
 async function main() {
   await createMasterData()
+
   const [positions, jobTypes, locations, experiences] = await Promise.all([
     prisma.position.findMany({ orderBy: { sequence: 'asc' } }),
     prisma.jobType.findMany({ orderBy: { sequence: 'asc' } }),
@@ -195,12 +196,20 @@ async function main() {
   console.log('Done!')
 }
 
-main()
-  .then(async () => {
+/**
+ * Initially, wanted to use this to seed the database before running tests.
+ * Ref: https://playwright.dev/docs/test-global-setup-teardown
+ * But, it can't be used because it's not possible to run this script in parallel.
+ */
+export const runSeeder = async () => {
+  try {
+    await main()
     await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     await prisma.$disconnect()
     process.exit(1)
-  })
+  }
+}
+
+runSeeder()

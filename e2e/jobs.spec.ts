@@ -51,6 +51,7 @@ test.describe('Job Detail', () => {
 
     const strRegExPattern = '\\b' + jobTitle + '\\b'
     await expect(page).toHaveURL(/.*?\/jobs\/[a-zA-Z0-9-]+/)
+
     await expect(page).toHaveTitle(new RegExp(strRegExPattern, 'i'))
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       jobTitle as string,
