@@ -23,8 +23,8 @@ export const jobSchema = z
       .optional()
       .transform((val) => val || null),
 
-    isSalaryVisible: z.coerce.boolean().optional(),
-    isCanRemote: z.coerce.boolean().optional(),
+    isSalaryVisible: z.coerce.boolean(),
+    isCanRemote: z.coerce.boolean(),
     expiresAt: z.coerce
       .string({ required_error: 'Tanggal berakhir tidak boleh kosong!' })
       .transform((val) => new Date(val).toISOString())

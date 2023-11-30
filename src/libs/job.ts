@@ -17,6 +17,13 @@ export const createJob = async (job: JobSchema) => {
 }
 
 /**
+ * Update an existing job to database
+ */
+export const updateJob = async (job: JobSchema, slug: string) => {
+  return await prisma.job.update({ where: { slug }, data: job })
+}
+
+/**
  * Get list of jobs from database
  */
 export const getJobs = async (query: JobQuery) => {

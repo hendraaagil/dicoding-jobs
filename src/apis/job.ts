@@ -9,9 +9,20 @@ import axios from 'axios'
  */
 export const createJob = async (job: JobSchema): Promise<Job> => {
   // Fake delay
-  await new Promise((r) => setTimeout(r, 1000))
+  await new Promise((r) => setTimeout(r, 500))
 
   const response = await axios.post<Job>('/api/jobs', job)
+  return response.data
+}
+
+/**
+ * Update an existing job from API
+ */
+export const updateJob = async (job: JobSchema, slug: string): Promise<Job> => {
+  // Fake delay
+  await new Promise((r) => setTimeout(r, 500))
+
+  const response = await axios.put<Job>('/api/jobs/' + slug, job)
   return response.data
 }
 
@@ -20,7 +31,7 @@ export const createJob = async (job: JobSchema): Promise<Job> => {
  */
 export const getJobs = async (query?: JobQuery): Promise<JobList> => {
   // Fake delay
-  await new Promise((r) => setTimeout(r, 1000))
+  await new Promise((r) => setTimeout(r, 500))
 
   const response = await axios.get<JobList>('/api/jobs', { params: query })
   return response.data

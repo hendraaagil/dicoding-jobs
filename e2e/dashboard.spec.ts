@@ -22,6 +22,7 @@ test.describe('Create', () => {
   test.beforeEach(async ({ page }) => {
     const createButton = page.getByRole('link', { name: 'Buat lowongan' })
     await createButton.click()
+
     await expect(page).toHaveURL(/.*?\/dashboard\/create/)
   })
 
@@ -113,6 +114,7 @@ test.describe('Create', () => {
       submitButton,
       cancelButton,
     } = await getFields(page)
+    const regexUrl = /.*?\/dashboard\/create/
 
     expect(await titleInput.getAttribute('required')).toBeDefined()
     expect(await positionInput.getAttribute('required')).toBeDefined()
@@ -126,49 +128,125 @@ test.describe('Create', () => {
 
     await titleInput.fill('')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await titleInput.fill('Product Engineer')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await positionInput.selectOption({ label: 'Software Engineer' })
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await page.evaluate(() => {
       window.scrollTo(0, 0)
     })
     await partTimeRadio.check({ force: true })
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await candidateInput.fill('3')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await expiryInput.fill('2023-12-10')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await locationInput.selectOption({ label: 'Surakarta' })
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await descriptionInput.fill('Deskripsi lowongan')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await minSalaryInput.fill('10000000')
     await submitButton.click()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await maxSalaryInput.fill('9000000')
     await submitButton.click()
     expect(await maxSalaryInput.getAttribute('aria-invalid')).toBeDefined()
-    await expect(page).toHaveURL(/.*?\/dashboard\/create/)
+    await expect(page).toHaveURL(regexUrl)
 
     await cancelButton.click()
+    await expect(page).toHaveURL(/.*?\/dashboard/)
+  })
+})
+
+test.describe('Edit', () => {
+  test.beforeEach(async ({ page }) => {
+    const jobCard = page.getByTestId('job-card').first()
+    const editButton = jobCard.getByRole('button', { name: 'Edit' })
+    await editButton.click()
+
+    await expect(page).toHaveURL(/.*?\/dashboard\/edit\/[a-zA-Z0-9-]+/)
+  })
+
+  test('should be able to edit an existing job', async ({ page }) => {
+    const {
+      titleInput,
+      positionInput,
+      fullTimeRadio,
+      candidateInput,
+      expiryInput,
+      locationInput,
+      canRemoteCheckbox,
+      descriptionInput,
+      minSalaryInput,
+      maxSalaryInput,
+      showSalaryCheckbox,
+      experience3Radio: experienceRadio,
+      editButton,
+    } = await getFields(page)
+
+    const titleText = 'Product Engineer'
+    await titleInput.fill(titleText)
+    await expect(titleInput).toHaveValue(titleText)
+
+    await positionInput.selectOption({ label: 'Software Engineer' })
+    const positionText = await positionInput
+      .locator('option:checked')
+      .first()
+      .innerText()
+    expect(positionText).toContain('Software Engineer')
+
+    await fullTimeRadio.check({ force: true })
+    await expect(fullTimeRadio).toBeChecked()
+
+    await candidateInput.fill('3')
+    await expect(candidateInput).toHaveValue('3')
+
+    await expiryInput.fill('2023-12-10')
+    await expect(expiryInput).toHaveValue('2023-12-10')
+
+    await locationInput.selectOption({ label: 'Bandung' })
+    const locationText = await locationInput
+      .locator('option:checked')
+      .first()
+      .innerText()
+    expect(locationText).toContain('Bandung')
+
+    await canRemoteCheckbox.check({ force: true })
+    await expect(canRemoteCheckbox).toBeChecked()
+
+    await descriptionInput.fill('Deskripsi lowongan')
+    await expect(descriptionInput).toContainText('Deskripsi lowongan')
+
+    await minSalaryInput.fill('10000000')
+    await expect(minSalaryInput).toHaveValue('10000000')
+
+    await maxSalaryInput.fill('11000000')
+    await expect(maxSalaryInput).toHaveValue('11000000')
+
+    await showSalaryCheckbox.check({ force: true })
+    await expect(showSalaryCheckbox).toBeChecked()
+
+    await experienceRadio.check({ force: true })
+    await expect(experienceRadio).toBeChecked()
+
+    await editButton.click()
     await expect(page).toHaveURL(/.*?\/dashboard/)
   })
 })
@@ -217,6 +295,7 @@ const getFields = async (page: Page) => {
   })
 
   const submitButton = page.getByRole('button', { name: 'Buat lowongan' })
+  const editButton = page.getByRole('button', { name: 'Edit lowongan' })
   const cancelButton = page.getByRole('button', { name: 'Batal' })
 
   return {
@@ -242,6 +321,7 @@ const getFields = async (page: Page) => {
     experience4Radio,
     experience5Radio,
     submitButton,
+    editButton,
     cancelButton,
   }
 }

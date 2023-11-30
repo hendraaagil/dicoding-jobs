@@ -1,5 +1,6 @@
 import type { Experience, JobType, Location, Position } from '@prisma/client'
 import type { JobSchema, JobSchemaError } from '@/schemas/job'
+import type { JobDetail } from '@/types/job'
 
 import React from 'react'
 import { AxiosError } from 'axios'
@@ -29,7 +30,7 @@ import {
 import { useRouter } from 'next/router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { createJob } from '@/apis/job'
+import { createJob, updateJob } from '@/apis/job'
 import { Container } from '@/components/layout'
 import { RichText } from '@/components/ui'
 
@@ -42,32 +43,41 @@ const initialDescription = `<h3>Deskripsi Pekerjaan</h3>
   </ul>`
 
 type JobFormProps = {
+  mode: 'create' | 'edit'
+  job?: JobDetail
   choices: {
     positions: Position[]
     jobTypes: JobType[]
     locations: Location[]
     experiences: Experience[]
   }
-  mode: 'create' | 'edit'
 }
 
 export const JobForm = ({
-  choices: { experiences, jobTypes, locations, positions },
   mode,
+  job,
+  choices: { experiences, jobTypes, locations, positions },
 }: JobFormProps) => {
-  const [description, setDescription] = React.useState(initialDescription)
+  const [description, setDescription] = React.useState(
+    job?.description ?? initialDescription,
+  )
   const [errors, setErrors] = React.useState<JobSchemaError>({})
   const queryClient = useQueryClient()
   const router = useRouter()
   const toast = useToast()
 
   const mutation = useMutation({
-    mutationFn: (job: JobSchema) => createJob(job),
+    mutationFn: (jobSchema: JobSchema) => {
+      if (mode === 'edit') {
+        return updateJob(jobSchema, job?.slug as string)
+      }
+      return createJob(jobSchema)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] })
       router.replace('/dashboard')
       toast({
-        title: 'Lowongan berhasil dibuat',
+        title: `Lowongan berhasil ${mode === 'create' ? 'dibuat' : 'diubah'}`,
         status: 'success',
         variant: 'left-accent',
         position: 'bottom-right',
@@ -101,6 +111,7 @@ export const JobForm = ({
             name="title"
             placeholder="Masukkan judul lowongan"
             rounded="sm"
+            defaultValue={job?.title}
           />
           {!!errors.title && (
             <FormErrorMessage>{errors.title[0]}</FormErrorMessage>
@@ -115,6 +126,7 @@ export const JobForm = ({
             placeholder="Pilih posisi yang dicari"
             color="gray.500"
             rounded="sm"
+            defaultValue={job?.position.id}
           >
             {positions.map((position) => (
               <option key={position.id} value={position.id}>
@@ -133,6 +145,7 @@ export const JobForm = ({
             name="jobTypeId"
             aria-required="true"
             aria-label="Job Type"
+            defaultValue={job?.jobType.id}
           >
             <Stack>
               {jobTypes.map((jobType) => (
@@ -149,7 +162,7 @@ export const JobForm = ({
 
         <FormControl isInvalid={!!errors.maxCandidates} isRequired>
           <FormLabel>Kandidat yang dibutuhkan</FormLabel>
-          <NumberInput min={1}>
+          <NumberInput min={1} defaultValue={job?.maxCandidates}>
             <NumberInputField
               type="number"
               name="maxCandidates"
@@ -173,6 +186,7 @@ export const JobForm = ({
             name="expiresAt"
             min={new Date().toISOString().split('T')[0]}
             rounded="sm"
+            defaultValue={job?.expiresAt.split('T')[0]}
           />
           {!!errors.expiresAt && (
             <FormErrorMessage>{errors.expiresAt[0]}</FormErrorMessage>
@@ -187,6 +201,7 @@ export const JobForm = ({
               placeholder="Pilih lokasi"
               color="gray.500"
               rounded="sm"
+              defaultValue={job?.location.id}
             >
               {locations.map((location) => (
                 <option key={location.id} value={location.id}>
@@ -198,7 +213,12 @@ export const JobForm = ({
               <FormErrorMessage>{errors.locationId[0]}</FormErrorMessage>
             )}
           </FormControl>
-          <Checkbox name="isCanRemote" value="1" colorScheme="navy">
+          <Checkbox
+            name="isCanRemote"
+            value="1"
+            colorScheme="navy"
+            defaultChecked={job?.isCanRemote}
+          >
             Bisa remote
           </Checkbox>
         </Stack>
@@ -230,6 +250,7 @@ export const JobForm = ({
                   name="minSalary"
                   placeholder="Minimum"
                   rounded="sm"
+                  defaultValue={job?.minSalary}
                 />
               </InputGroup>
               <span>-</span>
@@ -242,7 +263,7 @@ export const JobForm = ({
                   placeholder="Maksimum (opsional)"
                   rounded="sm"
                   required={false}
-                  // errorBorderColor="gray.200"
+                  defaultValue={job?.maxSalary ?? ''}
                 />
               </InputGroup>
             </Stack>
@@ -265,6 +286,7 @@ export const JobForm = ({
                 name="isSalaryVisible"
                 value="1"
                 colorScheme="navy"
+                defaultChecked={job?.isSalaryVisible}
               />
               <FormLabel htmlFor="isSalaryVisible" mb={0} color="gray.600">
                 Tampilkan gaji
@@ -283,6 +305,7 @@ export const JobForm = ({
             name="experienceId"
             aria-required="true"
             aria-label="Experience"
+            defaultValue={job?.experience.id}
           >
             <Stack>
               {experiences.map((experience) => (
@@ -316,7 +339,7 @@ export const JobForm = ({
             _hover={{ bg: 'gray.600' }}
             isLoading={mutation.isPending}
           >
-            Buat lowongan
+            {mode === 'create' ? 'Buat' : 'Edit'} lowongan
           </Button>
           <Button
             variant="outline"
