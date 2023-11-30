@@ -94,5 +94,10 @@ test.describe('Jobs', () => {
       await page.waitForLoadState()
       await expect(page).toHaveURL(/.*?\/jobs/)
     })
+
+    test('should display not found message', async ({ page }) => {
+      await page.goto('/jobs/qwertyuiop')
+      await expect(page.getByRole('main')).toContainText('tersesat')
+    })
   })
 })

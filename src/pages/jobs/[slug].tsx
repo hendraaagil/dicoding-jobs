@@ -18,6 +18,10 @@ export const getServerSideProps = async (
   const { slug } = context.query
   const job = await getJobBySlug(slug as string)
 
+  if (!job) {
+    return { notFound: true }
+  }
+
   return { props: { job } }
 }
 

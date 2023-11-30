@@ -256,6 +256,11 @@ test.describe('Dashboard', () => {
       await page.waitForLoadState()
       await expect(page).toHaveURL(/.*?\/dashboard/)
     })
+
+    test('should display not found message', async ({ page }) => {
+      await page.goto('/jobs/edit/qwertyuiop')
+      await expect(page.getByRole('main')).toContainText('tersesat')
+    })
   })
 
   test.describe('Delete', () => {

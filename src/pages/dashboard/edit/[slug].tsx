@@ -19,12 +19,16 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   const { slug } = context.query
-  const [positions, jobTypes, locations, experiences, job] = await Promise.all([
+  const job = await getJobBySlug(slug as string)
+  if (!job) {
+    return { notFound: true }
+  }
+
+  const [positions, jobTypes, locations, experiences] = await Promise.all([
     getPositions(),
     getJobTypes(),
     getLocations(),
     getExperiences(),
-    getJobBySlug(slug as string, true),
   ])
 
   return { props: { positions, jobTypes, locations, experiences, job } }
