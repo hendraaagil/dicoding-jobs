@@ -42,7 +42,7 @@ export default function Page({ job }: { job: JobDetail }) {
         >
           <JobCoverImage />
           <Stack>
-            <Heading as="h1" fontSize="2xl">
+            <Heading as="h1" fontSize="2xl" data-testid="job-title">
               {job.title}
             </Heading>
             <Text fontSize="sm">Sektor Bisnis: Technology</Text>

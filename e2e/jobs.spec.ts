@@ -53,9 +53,7 @@ test.describe('Job Detail', () => {
     await expect(page).toHaveURL(/.*?\/jobs\/[a-zA-Z0-9-]+/)
 
     await expect(page).toHaveTitle(new RegExp(strRegExPattern, 'i'))
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      jobTitle as string,
-    )
+    await expect(page.getByTestId('job-title')).toHaveText(jobTitle as string)
 
     const jobCoverImage = page.getByAltText(`Job's cover image`)
     await expect(jobCoverImage).toBeVisible()
