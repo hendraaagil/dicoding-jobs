@@ -5,6 +5,26 @@ test.describe('Dashboard', () => {
     await page.goto('/dashboard')
   })
 
+  test.describe('List', () => {
+    test('should display relevant information', async ({ page }) => {
+      const jobCard = page.getByTestId('job-card').first()
+      const jobCoverImage = jobCard.getByAltText(`Job's cover image`)
+      const jobTitle = jobCard.getByTestId('job-card-title')
+      const jobCreatedAt = jobCard.getByTestId('job-card-created-at')
+      const jobExpiresAt = jobCard.getByTestId('job-card-expires-at')
+      const editButton = jobCard.getByRole('button', { name: 'Edit' })
+      const deleteButton = jobCard.getByRole('button', { name: 'Hapus' })
+
+      await expect(jobCard).toBeVisible()
+      await expect(jobCoverImage).toBeVisible()
+      await expect(jobTitle).not.toBeEmpty()
+      await expect(jobCreatedAt).not.toBeEmpty()
+      await expect(jobExpiresAt).not.toBeEmpty()
+      await expect(editButton).toBeEnabled()
+      await expect(deleteButton).toBeEnabled()
+    })
+  })
+
   test.describe('Pagination', () => {
     test('should be able to navigate between page', async ({ page }) => {
       const prevButton = page.getByLabel('Previous page')
@@ -46,7 +66,7 @@ test.describe('Dashboard', () => {
         submitButton,
       } = await getFields(page)
 
-      const titleText = 'Product Engineer'
+      const titleText = 'Software Developer'
       await titleInput.fill(titleText)
       await expect(titleInput).toHaveValue(titleText)
 
@@ -96,7 +116,7 @@ test.describe('Dashboard', () => {
       await expect(page).toHaveURL(/.*?\/dashboard/)
 
       const jobCard = page.getByTestId('job-card').first()
-      const titleCard = jobCard.locator('p').first()
+      const titleCard = jobCard.getByTestId('job-card-title').first()
       await expect(titleCard).toContainText(titleText)
     })
 
@@ -134,7 +154,7 @@ test.describe('Dashboard', () => {
       await submitButton.click()
       await expect(page).toHaveURL(regexUrl)
 
-      await titleInput.fill('Product Engineer')
+      await titleInput.fill('Software Developer')
       await submitButton.click()
       await expect(page).toHaveURL(regexUrl)
 
@@ -207,7 +227,7 @@ test.describe('Dashboard', () => {
         editButton,
       } = await getFields(page)
 
-      const titleText = 'Product Engineer'
+      const titleText = 'Updated Software Developer'
       await titleInput.fill(titleText)
       await expect(titleInput).toHaveValue(titleText)
 
@@ -255,6 +275,10 @@ test.describe('Dashboard', () => {
       await editButton.click()
       await page.waitForLoadState()
       await expect(page).toHaveURL(/.*?\/dashboard/)
+
+      const jobCard = page.getByTestId('job-card').first()
+      const jobTitle = jobCard.getByTestId('job-card-title')
+      await expect(jobTitle).toContainText(titleText)
     })
 
     test('should display not found message', async ({ page }) => {
@@ -266,6 +290,7 @@ test.describe('Dashboard', () => {
   test.describe('Delete', () => {
     test('should be able to delete an existing job', async ({ page }) => {
       const jobCard = page.getByTestId('job-card').first()
+      const jobTitle = await jobCard.getByTestId('job-card-title').textContent()
       const deleteButton = jobCard.getByRole('button', { name: 'Hapus' })
       await deleteButton.click()
 
@@ -281,6 +306,10 @@ test.describe('Dashboard', () => {
       await confirmButton.click()
       await page.waitForLoadState()
       await expect(page).toHaveURL(/.*?\/dashboard/)
+
+      const newJobCard = page.getByTestId('job-card').first()
+      const newJobTitle = newJobCard.getByTestId('job-card-title')
+      await expect(newJobTitle).not.toContainText(jobTitle as string)
     })
   })
 

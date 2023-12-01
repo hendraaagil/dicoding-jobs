@@ -58,16 +58,20 @@ export const JobCardDashboard = ({
     <Stack direction="row" alignItems="center" columnGap={4}>
       <JobCoverImage />
       <Stack>
-        <Text mb={2} fontWeight="700">
+        <Text mb={2} fontWeight="700" data-testid="job-card-title">
           {job.title}
         </Text>
         <Stack direction="row" alignItems="center">
           <Upload size={16} />
-          <Text fontSize="sm">Dibuat: {formatDate(job.createdAt)}</Text>
+          <Text fontSize="sm" data-testid="job-card-created-at">
+            Dibuat: {formatDate(job.createdAt)}
+          </Text>
         </Stack>
         <Stack direction="row" alignItems="center">
           <Clock size={16} />
-          <Text fontSize="sm">Aktif hingga: {formatDate(job.expiresAt)}</Text>
+          <Text fontSize="sm" data-testid="job-card-expires-at">
+            Aktif hingga: {formatDate(job.expiresAt)}
+          </Text>
         </Stack>
       </Stack>
     </Stack>
@@ -123,6 +127,7 @@ export const JobCard = ({ job }: { job: JobItem }) => (
     w="full"
     href={`/jobs/${job.slug}`}
     _hover={{ textDecoration: 'none', bg: 'gray.50' }}
+    data-testid="job-card"
   >
     <CardContainer>
       <Stack direction="row" alignItems="center" columnGap={4}>
@@ -137,7 +142,9 @@ export const JobCard = ({ job }: { job: JobItem }) => (
           </Text>
           <Stack direction="row" alignItems="center">
             <Building2 size={16} />
-            <Text fontSize="xs">Dicoding Indonesia</Text>
+            <Text fontSize="xs" data-testid="job-card-company">
+              Dicoding Indonesia
+            </Text>
           </Stack>
           <Stack
             direction={{ base: 'column', sm: 'row' }}
@@ -145,11 +152,15 @@ export const JobCard = ({ job }: { job: JobItem }) => (
           >
             <Stack direction="row" alignItems="center">
               <MapPin size={16} />
-              <Text fontSize="xs">{job.location.name}</Text>
+              <Text fontSize="xs" data-testid="job-card-location">
+                {job.location.name}
+              </Text>
             </Stack>
             <Stack direction="row" alignItems="center">
               <Briefcase size={16} />
-              <Text fontSize="xs">{job.experience.name}</Text>
+              <Text fontSize="xs" data-testid="job-card-experience">
+                {job.experience.name}
+              </Text>
             </Stack>
           </Stack>
         </Stack>
@@ -158,10 +169,14 @@ export const JobCard = ({ job }: { job: JobItem }) => (
         alignItems={{ base: 'start', md: 'end' }}
         justifyContent="space-between"
       >
-        <Badge>{job.jobType.name}</Badge>
+        <Badge data-testid="job-card-type">{job.jobType.name}</Badge>
         <Stack alignItems={{ base: 'start', md: 'end' }}>
-          <Text fontSize="xs">Dibuat pada {formatDate(job.createdAt)}</Text>
-          <Text fontSize="xs">Lamar sebelum {formatDate(job.expiresAt)}</Text>
+          <Text fontSize="xs" data-testid="job-card-created-at">
+            Dibuat pada {formatDate(job.createdAt)}
+          </Text>
+          <Text fontSize="xs" data-testid="job-card-expires-at">
+            Lamar sebelum {formatDate(job.expiresAt)}
+          </Text>
         </Stack>
       </Stack>
     </CardContainer>

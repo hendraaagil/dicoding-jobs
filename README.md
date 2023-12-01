@@ -1,6 +1,6 @@
 # Dicoding Jobs
 
-This project is used as a Technical Exercise Product Engineer at Dicoding.
+This project is used as a Product Engineer Technical Exercise at Dicoding.
 
 ## Local development setup
 
